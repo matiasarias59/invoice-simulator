@@ -184,3 +184,25 @@ while(agregar == true){
         }
     }
 }
+
+ivaFinal = ivaCarrito(carrito);
+totalFinal = totalCarrito(carrito);
+for (const i of carrito){
+    carritoFinal = carritoFinal + i.mostrar() + "\n";
+}
+
+alert("Cliente:\n" + cliente.mostrar());
+alert("productos:\n" + carritoFinal); //corregir esto 
+
+
+alert("Total impuestos: $" + ivaFinal + "\nTotal: $" + totalFinal);
+
+
+console.log(ivaFinal);
+console.log(totalFinal);
+console.log(carrito);
+
+
+
+const filtrado = filtrarCantidad(carrito, 5);
+console.log(filtrado);
