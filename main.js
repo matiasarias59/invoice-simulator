@@ -6,4 +6,18 @@ const ingresarDatoCliente = (dato) => {
         input = ingresarDatoCliente(dato);
     }
     return input;  
+}   
+
+//Definicion Clase Cliente
+class Client{
+    constructor(nomb, dni, tel, mail, dir){
+        this.nomb = nomb;
+        this.dni = dni;
+        this.tel = tel;
+        this.mail = mail;
+        this.dir = dir;
+    }
+    mostrar() {
+        return ("Nombre: "+this.nomb+"\nDNI: "+this.dni+"\nTelefono: "+this.tel+"\nE-mail: "+this.mail+"\nDireccion: "+this.dir);
+    }   
 }
