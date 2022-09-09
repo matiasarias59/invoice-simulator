@@ -126,3 +126,13 @@ let agregar = true;
 let ivaFinal;
 let totalFinal; 
 let carritoFinal = "";
+
+alert("Bienvenido! Puedes crear notas de venta o presupuestos.");
+
+presupuesto = esPresupuesto();
+
+if(presupuesto == true){
+    do {
+        validezPresupuesto = parseInt(prompt("Ingrese los dias de validez"))
+    } while (validezPresupuesto <=0 || isNaN(validezPresupuesto));    
+}
