@@ -112,3 +112,17 @@ const filtrarCantidad = (arr, cantMax) =>{
     const filtrado = arr.filter((el) => el.cant <= cantMax);
     return filtrado;
 }
+
+// Main
+
+let fecha = new Date();
+let presupuesto;
+let validezPresupuesto;
+let cliente;
+let continuar; 
+let producto;
+let carrito = [];
+let agregar = true;
+let ivaFinal;
+let totalFinal; 
+let carritoFinal = "";
