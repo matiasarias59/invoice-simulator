@@ -91,3 +91,11 @@ const esPresupuesto = () =>{
         return true;
     }
 }
+// Funcion calcula iva total del carrito
+const ivaCarrito = (carrito) =>{
+    let sumaIva = 0;
+    for(let i = 0; i < carrito.length; i++){
+        sumaIva = sumaIva + carrito[i].calcularIvaTotal();
+    }
+    return sumaIva;
+}
