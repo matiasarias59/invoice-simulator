@@ -136,3 +136,19 @@ if(presupuesto == true){
         validezPresupuesto = parseInt(prompt("Ingrese los dias de validez"))
     } while (validezPresupuesto <=0 || isNaN(validezPresupuesto));    
 }
+
+alert("Ingrese los datos del cliente");
+
+while(continuar !=1){
+    cliente = ingresarCliente();
+    continuar = parseInt(prompt("Ingreso:\n" + cliente.mostrar() + "\nEs correcto?\n1 - Si, continuar\n2 - Volver a ingresar cliente"));
+    while(continuar !=1){
+        if(isNaN(continuar)==true){
+        alert("Opcion no valida. Intentelo de nuevo");
+        continuar = parseInt(prompt("Ingreso:\n" + cliente.mostrar() + "\nEs correcto?\n1 - Si, continuar\n2 - Volver a ingresar cliente"));
+        }else{
+            cliente = ingresarCliente();
+            continuar = parseInt(prompt("Ingreso:\n" + cliente.mostrar() + "\nEs correcto?\n1 - Si, continuar\n2 - Volver a ingresar cliente"));
+        }
+    }
+}
