@@ -99,3 +99,11 @@ const ivaCarrito = (carrito) =>{
     }
     return sumaIva;
 }
+//Funcion calcula total del carrito
+const totalCarrito = (carrito) =>{
+    let sumaTotal = 0;
+    for(let i = 0; i < carrito.length; i++){
+        sumaTotal = sumaTotal + carrito[i].calcularTotal();
+    }
+    return sumaTotal;
+}
