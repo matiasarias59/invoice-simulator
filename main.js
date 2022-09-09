@@ -30,3 +30,25 @@ const ingresarCliente = () =>{
         ingresarDatoCliente("Domicilio"));
     return cliente;
 }
+// Definicion Clase Producto
+class Product{
+    constructor(cant, nomb, price, iva){
+        this.cant = cant;
+        this.nomb = nomb;
+        this.price = price;
+        this.iva = iva;
+    }
+    calcularIva(){
+        return this.price * this.iva / 100;
+    }
+    calcularIvaTotal(){
+        return this.cant * this.calcularIva();
+    }
+    calcularTotal(){
+        return this.price * this.cant;
+    }
+    mostrar() {
+        return ("Cantidad: "+this.cant+"\nProducto: "+this.nomb+"\nPrecio: "+this.price+"\nIVA: "+this.iva);
+    } 
+
+}
