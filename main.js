@@ -78,3 +78,16 @@ const ingresarProducto = () =>{
     );
     return product;
 }
+//Funcion pregunta si es presupuesto o nota de venta
+const esPresupuesto = () =>{
+    let opcion = parseInt(prompt("Seleccione una opción:\n1 - Nota de Venta\n2 - Presupuesto"));
+    while(opcion !=1 && opcion !=2){
+        alert("Opcion no valida. Intentelo de nuevo");
+        opcion = parseInt(prompt("Seleccione una opción:\n1 - Nota de Venta\n2 - Presupuesto"));
+    }
+    if(opcion == 1){
+        return false;
+    }else{
+        return true;
+    }
+}
