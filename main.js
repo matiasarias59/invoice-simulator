@@ -107,3 +107,8 @@ const totalCarrito = (carrito) =>{
     }
     return sumaTotal;
 }
+// Definicion de Funcion para filtrar productos por cantidad maxima
+const filtrarCantidad = (arr, cantMax) =>{
+    const filtrado = arr.filter((el) => el.cant <= cantMax);
+    return filtrado;
+}
