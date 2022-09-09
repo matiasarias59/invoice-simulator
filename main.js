@@ -50,5 +50,21 @@ class Product{
     mostrar() {
         return ("Cantidad: "+this.cant+"\nProducto: "+this.nomb+"\nPrecio: "+this.price+"\nIVA: "+this.iva);
     } 
-
+}
+// Definicion de funciones para ingreso de produtos
+const ingresoNro = (valor) =>{
+    let cant = parseFloat(prompt(valor+": "));
+    while(cant < 1 || isNaN(cant)){
+        alert("Ingreso invalido");
+        cant = ingresoNro(valor);
+    }
+    return cant;
+}
+const ingresoTexto = () =>{
+    let input = prompt("Producto: ");
+    while(input == ""){
+        alert("No puede dejar este campo vacio");
+        input = ingresarTexto();
+    }
+    return input;
 }
