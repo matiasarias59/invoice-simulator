@@ -152,3 +152,35 @@ while(continuar !=1){
         }
     }
 }
+
+alert("Ingrese los productos");
+
+while(agregar == true){
+    continuar = ""
+    while(continuar !=1){
+        producto = ingresarProducto();
+        continuar = parseInt(prompt("Ingreso:\n" + producto.mostrar() + "\nEs correcto?\n1 - Si, continuar\n2 - Volver a ingresar producto"));
+        while(continuar !=1){
+            if(isNaN(continuar)==true){
+            alert("Opcion no valida. Intentelo de nuevo");
+            continuar = parseInt(prompt("Ingreso:\n" + producto.mostrar() + "\nEs correcto?\n1 - Si, continuar\n2 - Volver a ingresar producto"));
+            }else{
+                producto = ingresarProducto();
+                continuar = parseInt(prompt("Ingreso:\n" + producto.mostrar() + "\nEs correcto?\n1 - Si, continuar\n2 - Volver a ingresar producto"));
+            }
+        }
+        carrito.push(producto);
+    }
+    let seguirAgregando = parseInt(prompt("¿Desea continuar agregando elementos?\n1 - Si\n2 - No"));
+    while(seguirAgregando != 1 || seguirAgregando != 2){
+        if(seguirAgregando == 1){
+            break;
+        }else if(seguirAgregando == 2){
+            agregar = false;
+            break;
+        }else{
+            alert("Ingrese una opcion valida");
+            seguirAgregando = parseInt(prompt("¿Desea continuar agregando elementos?\n1 - Si\n2 - No"));
+        }
+    }
+}
