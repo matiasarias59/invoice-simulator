@@ -68,3 +68,13 @@ const ingresoTexto = () =>{
     }
     return input;
 }
+// Definicion Funcion Crear producto
+const ingresarProducto = () =>{
+    const product = new Product(
+        ingresoNro("Cantidad"),
+        ingresoTexto(),
+        ingresoNro("Precio"),
+        ingresoNro("IVA"),
+    );
+    return product;
+}
