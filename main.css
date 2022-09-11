@@ -17,3 +17,7 @@ html {
 input{
     margin: 10px;
 }
+
+#validez__presupuesto{
+    display: none;
+}

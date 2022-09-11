@@ -36,3 +36,22 @@ class Product{
     } 
 }
 
+//ingresar validez
+
+const presupuesto = document.getElementById("presupuesto");
+const notaVenta = document.getElementById("notaVenta");
+const containerValidez = document.getElementById("validez__presupuesto");
+
+presupuesto.addEventListener("click", presupuestoIsChecked);
+function presupuestoIsChecked(){
+    containerValidez.style.display = "block";
+    console.log("cliqueaste presupuesto");
+}
+
+notaVenta.addEventListener("click",notaVentaIsChecked);
+
+
+function notaVentaIsChecked(){
+    containerValidez.style.display = "none";
+    console.log("cliqueaste nota de venta");
+}
