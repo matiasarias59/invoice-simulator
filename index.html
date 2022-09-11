@@ -4,40 +4,56 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador Presupuesto / Nota de Venta</title>
+    <link rel="stylesheet" href="./main.css">
+    <title>Simulador de Ventas</title>
 </head>
 <body>
-    <h1>Proyecto: Generador de Presupuestos / Notas de Ventas, de productos. </h1>
+    <header>
+        <h1>Bienvenidos a Rosario Tech</h1>
+    </header>
+    <main>
+        <section class="client">
+            <h3>Datos cliente</h3>
+            <div class="container" id="searchClient">
+                <label for="clientToFind">Buscar cliente</label>
+                <input type="search" name="clientToFind" id="clientToFind" value="Matias">
+                <input type="button" value="Buscar">
+                <input type="button" value="Agregar">
+            </div>
+            <div class="container" id="resultClient">
+                <label for="clientName">Nombre:</label>
+                <input type="text" name="clientName" id="clientName">
+                <label for="clientId">Cuit/Dni:</label>
+                <input type="text" name="clientId" id="clientId">
+                <label for="clientPhone">Telefono:</label>
+                <input type="tel" name="clientPhone" id="clientPhone">
+                <label for="clientMail">E-mail:</label>
+                <input type="mail" name="clientMail" id="clientMail">
+                <label for="clientAddress">Direccion:</label>
+                <input type="text" name="clientAddress" id="clientAddress">
+                <label for="clientCity">Localidad:</label>
+                <input type="text" name="clientCity" id="clientCity">
+            </div>
+            <div class="container">
+                <h3>Tipo de orden</h3>
+                <label for="NotaVenta">Nota de Venta</label>
+                <input type="radio" name="NotaVenta" id="NotaVenta">
+                <label for="Presupuesto">Presupuesto</label>
+                <input type="radio" name="Presupuesto" id="Presupuesto">
+                <label for="validez">Validez:</label>
+                <input type="number" name="validez" id="validez">   
+            </div>
+        </section>
+        <section class="product">
+            <h3>Productos</h3>
+            <div class="container" id="searchProduct">
+                <label for="productToFind">Buscar producto</label>
+                <input type="search" name="productToFind" id="productToFind">
+                <input type="button" value="Buscar">
+            </div>
+        </section>
+    </main>
 
-    <p>El programa debe pedir ingreso de:</p> 
-    <ul>
-        <li>Cliente:
-            <ul>
-                <li>Nombre</li>
-                <li>Dni</li>
-                <li>Telefono</li>
-                <li>Mail</li>
-                <li>Direccion</li>
-            </ul>
-        </li>
-        <li>Producto:
-            <ul>
-                <li>Nombre</li>
-                <li>Cantidad</li>
-                <li>Precio Unitario con Iva</li>
-                <li>Porcentaje de IVA</li>
-            </ul>
-        </li>
-        <li>Debe preguntar si es nota de venta o Presupuesto. Si es presupuesto consulta número de días de validez del mismo. </li>
-        <li>Luego de ingresar un producto deberá preguntar si se desea ingresar otro. Repetirá la secuencia hasta que no se quieran ingresar más productos.</li>
-        <li>Debe calcular el total por producto, el total del pedido, y el total de impuestos. </li>
-    </ul>
-        
-        
-         
-        
-        
-        
     <script src="./main.js"></script>
 </body>
 </html>
