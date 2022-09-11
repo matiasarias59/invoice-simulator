@@ -35,3 +35,4 @@ class Product{
         return ("Cantidad: "+this.cant+"\nProducto: "+this.nomb+"\nPrecio: "+this.price+"\nIVA: "+this.iva);
     } 
 }
+
