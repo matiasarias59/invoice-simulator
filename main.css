@@ -1,0 +1,13 @@
+html {
+    font-size: 62.5%;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.client{
+    display: flex;
+    flex-direction: column;
+}
+
+input{
+    margin: 10px;
+}
