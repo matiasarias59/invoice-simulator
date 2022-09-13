@@ -2,16 +2,31 @@
 
 //Definicion Clase Cliente
 class Client{
-    constructor(nomb, dni, tel, mail, dir){
+    constructor(nomb, dni, tel, mail, dir, city){
         this.nomb = nomb;
         this.dni = dni;
         this.tel = tel;
         this.mail = mail;
         this.dir = dir;
+        this.city = city;
     }
     mostrar() {
         return ("Nombre: "+this.nomb+"\nDNI: "+this.dni+"\nTelefono: "+this.tel+"\nE-mail: "+this.mail+"\nDireccion: "+this.dir);
     }   
+}
+
+const client = [];
+const newClient = () =>{
+    let newClient = new Client(
+        document.getElementById("clientName").value,
+        document.getElementById("clientId").value,
+        document.getElementById("clientPhone").value,
+        document.getElementById("clientMail").value,
+        document.getElementById("clientAddress").value,
+        document.getElementById("clientCity").value,
+    );
+    client.push(newClient);
+    console.log(client);    
 }
 
 // Definicion Clase Producto
@@ -55,3 +70,13 @@ function notaVentaIsChecked(){
     containerValidez.style.display = "none";
     console.log("cliqueaste nota de venta");
 }
+
+// Tomar Cliente
+
+
+
+const agregarCliente = document.getElementById("agregarCliente");
+
+agregarCliente.addEventListener("click", newClient);
+
+

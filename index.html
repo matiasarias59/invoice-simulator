@@ -14,12 +14,12 @@
     <main>
         <section class="client">
             <h3>Datos cliente</h3>
-            <div class="container" id="searchClient">
+            <!-- <div class="container" id="searchClient">
                 <label for="clientToFind">Buscar cliente</label>
                 <input type="search" name="clientToFind" id="clientToFind" value="Matias">
                 <input type="button" value="Buscar">
                 <input type="button" value="Agregar">
-            </div>
+            </div> -->
             <div class="container" id="resultClient">
                 <label for="clientName">Nombre:</label>
                 <input type="text" name="clientName" id="clientName">
@@ -33,6 +33,7 @@
                 <input type="text" name="clientAddress" id="clientAddress">
                 <label for="clientCity">Localidad:</label>
                 <input type="text" name="clientCity" id="clientCity">
+                <input type="button" value="Agregar" id="agregarCliente">
             </div>
             <div class="container">
                 <h3>Tipo de orden</h3>
@@ -48,11 +49,13 @@
         </section>
         <section class="product">
             <h3>Productos</h3>
-            <div class="container" id="searchProduct">
+            <!-- <div class="container" id="searchProduct">
                 <label for="productToFind">Buscar producto</label>
                 <input type="search" name="productToFind" id="productToFind">
                 <input type="button" value="Buscar">
-            </div>
+            </div> -->
+            <label for="productCant">Cantidad</label>
+            <input type="number" name="productCant" id="productCant">
         </section>
     </main>
 
