@@ -31,9 +31,9 @@ const newClient = () =>{
 
 // Definicion Clase Producto
 class Product{
-    constructor(cant, nomb, price, iva){
-        this.cant = cant;
+    constructor(nomb, cant, price, iva){
         this.nomb = nomb;
+        this.cant = cant;
         this.price = price;
         this.iva = iva;
     }
@@ -49,6 +49,19 @@ class Product{
     mostrar() {
         return ("Cantidad: "+this.cant+"\nProducto: "+this.nomb+"\nPrecio: "+this.price+"\nIVA: "+this.iva);
     } 
+}
+
+//Funcion para agregar productos
+const product = []
+const newProduct = () =>{
+    let newProduct = new Product(
+        document.getElementById("productName").value,
+        document.getElementById("productCant").value,
+        document.getElementById("productPrice").value,
+        document.getElementById("productIva").value,
+    );
+    product.push(newProduct);
+    console.log(product);
 }
 
 //ingresar validez
@@ -73,10 +86,11 @@ function notaVentaIsChecked(){
 
 // Tomar Cliente
 
+const clientAdd = document.getElementById("clientAdd");
+clientAdd.addEventListener("click", newClient);
 
+// Agregar productos
 
-const agregarCliente = document.getElementById("agregarCliente");
-
-agregarCliente.addEventListener("click", newClient);
-
+const productAdd = document.getElementById("productAdd");
+productAdd.addEventListener("click", newProduct);
 
