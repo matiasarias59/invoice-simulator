@@ -52,16 +52,26 @@ class Product{
 }
 
 //Funcion para agregar productos
+const productName = document.getElementById("productName");
+const productCant = document.getElementById("productCant");
+const productPrice = document.getElementById("productPrice");
+const productIva = document.getElementById("productIva");
 const product = []
 const newProduct = () =>{
     let newProduct = new Product(
-        document.getElementById("productName").value,
-        document.getElementById("productCant").value,
-        document.getElementById("productPrice").value,
-        document.getElementById("productIva").value,
+        productName.value,
+        productCant.value,
+        productPrice.value,
+        productIva.value,
     );
     product.push(newProduct);
     console.log(product);
+    //Limpia los campos del formulario
+    productName.value ="";
+    productCant.value ="";
+    productPrice.value ="";
+    productIva.value ="";
+
 }
 
 //ingresar validez
