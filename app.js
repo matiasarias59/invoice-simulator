@@ -16,6 +16,8 @@ class Client{
 }
 
 const client = [];
+const clienteFinal = document.getElementById("clienteFinal");
+
 const newClient = () =>{
     let newClient = new Client(
         document.getElementById("clientName").value,
@@ -26,7 +28,16 @@ const newClient = () =>{
         document.getElementById("clientCity").value,
     );
     client.push(newClient);
-    console.log(client);    
+    console.log(client);
+    clienteFinal.innerHTML=`<div class="container_resultado">
+                    <h4>Nombre:</h4> ${newClient.nomb}
+                    <h4>Cuit/Dni:</h4> ${newClient.dni}
+                    <h4>Telefono:</h4> ${newClient.tel}
+                    <h4>E-mail:</h4> ${newClient.mail}
+                    <h4>Domicilio:</h4> ${newClient.dir}
+                    <h4>Localidad:</h4> ${newClient.city}
+                </div>`;
+
 }
 
 // Definicion Clase Producto
@@ -46,9 +57,6 @@ class Product{
     calcularTotal(){
         return this.price * this.cant;
     }
-    mostrar() {
-        return ("Cantidad: "+this.cant+"\nProducto: "+this.nomb+"\nPrecio: "+this.price+"\nIVA: "+this.iva);
-    } 
 }
 
 //Funcion para agregar productos
@@ -56,6 +64,7 @@ const productName = document.getElementById("productName");
 const productCant = document.getElementById("productCant");
 const productPrice = document.getElementById("productPrice");
 const productIva = document.getElementById("productIva");
+const productosFinal = document.getElementById("productosFinal");
 const product = []
 const newProduct = () =>{
     let newProduct = new Product(
@@ -72,6 +81,25 @@ const newProduct = () =>{
     productPrice.value ="";
     productIva.value ="";
 
+}
+
+//Funcion para mostrar los productos
+const showProducts = () =>{
+    let producto =document.createElement("div");
+    for(const prod of product){
+        
+        producto.innerHTML =`<h4>Cantidad:</h4> ${prod.cant}
+        <h4>Producto:</h4> ${prod.nomb}
+        <h4>Precio:</h4> ${prod.price}
+        <h4>IVA:</h4> ${prod.iva}`;
+        productosFinal.append(producto);
+      
+        console.log(
+            `Nombre: ${prod.nomb}
+             Cantidad: ${prod.cant}
+             Precio: ${prod.price}
+             Iva: ${prod.iva}`);
+    }
 }
 
 //ingresar validez
@@ -103,4 +131,5 @@ clientAdd.addEventListener("click", newClient);
 
 const productAdd = document.getElementById("productAdd");
 productAdd.addEventListener("click", newProduct);
+productAdd.addEventListener("click", showProducts);
 
