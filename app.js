@@ -10,9 +10,9 @@ class Client{
         this.dir = dir;
         this.city = city;
     }
-    mostrar() {
+    /* mostrar() {
         return ("Nombre: "+this.nomb+"\nDNI: "+this.dni+"\nTelefono: "+this.tel+"\nE-mail: "+this.mail+"\nDireccion: "+this.dir);
-    }   
+    }   */ 
 }
 
 const client = [];
@@ -48,7 +48,13 @@ class Product{
         this.price = price;
         this.iva = iva;
     }
-    calcularIva(){
+    /* constructor(obj){
+        this.nomb = obj.nomb;
+        this.cant = obj.cant;
+        this.price = obj.price;
+        this.iva = obj.iva
+    } */
+    /* calcularIva(){
         return this.price * this.iva / 100;
     }
     calcularIvaTotal(){
@@ -56,16 +62,46 @@ class Product{
     }
     calcularTotal(){
         return this.price * this.cant;
+    } */
+}
+
+// Definicion Clase Carrito
+class ProductInCarrito{
+    constructor(cant, product){
+        this.cant = cant;
+        this.product = product;
     }
 }
 
-//Funcion para agregar productos
+
+
 const productName = document.getElementById("productName");
 const productCant = document.getElementById("productCant");
 const productPrice = document.getElementById("productPrice");
 const productIva = document.getElementById("productIva");
 const productosFinal = document.getElementById("productosFinal");
-const product = []
+const productDB = []//Array DB para almacenar productos. posteriormente se manda al localStorage
+
+// Funcion para sincronizar el localStorage
+const SyncLocalDB = () =>{
+    const productDBSync = (JSON.parse(localStorage.getItem("productDB")));
+    console.log(productDBSync);
+    if(productDBSync!=null){
+        for (const i of productDBSync){
+            console.log(i);
+            const productToSync = new Product (
+                i.nomb,
+                i.cant,
+                i.price,
+                i.iva
+            )
+            productDB.push(productToSync);
+            console.log(productDB);
+        }
+    }
+}
+
+//Funcion para agregar productos
 const newProduct = () =>{
     let newProduct = new Product(
         productName.value,
@@ -73,8 +109,8 @@ const newProduct = () =>{
         productPrice.value,
         productIva.value,
     );
-    product.push(newProduct);
-    console.log(product);
+    productDB.push(newProduct);
+    console.log(productDB);
     //Limpia los campos del formulario
     productName.value ="";
     productCant.value ="";
@@ -83,10 +119,15 @@ const newProduct = () =>{
 
 }
 
+// Funcion para actulizar el localStorage
+const UpdateLocalDB = () =>{
+    localStorage.setItem("productDB", JSON.stringify(productDB))
+}
+
 //Funcion para mostrar los productos
 const showProducts = () =>{
     let producto =document.createElement("div");
-    for(const prod of product){
+    for(const prod of productDB){
         
         producto.innerHTML =`<h4>Cantidad:</h4> ${prod.cant}
         <h4>Producto:</h4> ${prod.nomb}
@@ -102,7 +143,7 @@ const showProducts = () =>{
     }
 }
 
-//ingresar validez
+//ingresar validez -----------------------
 
 const presupuesto = document.getElementById("presupuesto");
 const notaVenta = document.getElementById("notaVenta");
@@ -121,6 +162,7 @@ function notaVentaIsChecked(){
     containerValidez.style.display = "none";
     console.log("cliqueaste nota de venta");
 }
+// Fin modulo ingresar validez---------------------
 
 // Tomar Cliente
 
@@ -128,8 +170,10 @@ const clientAdd = document.getElementById("clientAdd");
 clientAdd.addEventListener("click", newClient);
 
 // Agregar productos
-
+SyncLocalDB();
 const productAdd = document.getElementById("productAdd");
 productAdd.addEventListener("click", newProduct);
-productAdd.addEventListener("click", showProducts);
+//productAdd.addEventListener("click", showProducts);
+productAdd.addEventListener("click", UpdateLocalDB);
+
 
