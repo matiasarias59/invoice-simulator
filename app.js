@@ -124,7 +124,7 @@ const UpdateLocalDB = () =>{
     localStorage.setItem("productDB", JSON.stringify(productDB))
 }
 
-//Funcion para mostrar los productos
+/* //Funcion para mostrar los productos
 const showProducts = () =>{
     let producto =document.createElement("div");
     for(const prod of productDB){
@@ -141,7 +141,7 @@ const showProducts = () =>{
              Precio: ${prod.price}
              Iva: ${prod.iva}`);
     }
-}
+} */
 
 //ingresar validez -----------------------
 
@@ -177,3 +177,48 @@ productAdd.addEventListener("click", newProduct);
 productAdd.addEventListener("click", UpdateLocalDB);
 
 
+// Busqueda y Filtrado de Productos
+
+
+const searchProduct = document.getElementById("searchProduct"); //input de busqueda
+
+//Funcion para filter de busqueda
+const Search = (element) =>{
+    return element.nomb.includes(searchProduct.value)
+
+} 
+
+const resultSearch = document.getElementById("resultSearch");//section donde se agregaran los productos a mostrar
+
+
+const UpdateSearch = () =>{
+    resultSearch.innerHTML = "";
+   const productDBFilter = productDB.filter(Search);
+    console.log(productDBFilter);
+    productDBFilter.forEach(el => {
+        const contentResultSearch = document.createElement("div");
+        contentResultSearch.innerHTML = `<p>Producto: ${el.nomb}</p>  
+        <p>Cantidad: ${el.cant}</p>
+        <p>Precio: ${el.price}</p>
+        <p>IVA: ${el.iva}</p>`;
+        resultSearch.appendChild(contentResultSearch);
+    });
+    
+}
+
+
+
+/* const ShowResultSearch = () =>{
+    productDBFilter.forEach(el => {
+        contentResultSearch.innerHTML = `<p>Producto: ${el.productName}</p>  
+        <p>Cantidad: ${el.productStock}</p>
+        <p>Precio: ${el.productPrice}</p>
+        <p>IVA: ${el.productIva}</p>`;
+        resultSearch.append(contentResultSearch);
+    });
+
+} */
+
+searchProduct.addEventListener("keyup",UpdateSearch);
+
+//searchProduct.addEventListener("keyup",ShowResultSearch);
