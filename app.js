@@ -87,13 +87,13 @@ const SyncLocalDB = () =>{
     const productDBSync = (JSON.parse(localStorage.getItem("productDB")));
     console.log(productDBSync);
     if(productDBSync!=null){
-        for (const i of productDBSync){
-            console.log(i);
+        for (const product of productDBSync){
+            console.log(product);
             const productToSync = new Product (
-                i.nomb,
-                i.cant,
-                i.price,
-                i.iva
+                product.nomb,
+                product.cant,
+                product.price,
+                product.iva
             )
             productDB.push(productToSync);
             console.log(productDB);
