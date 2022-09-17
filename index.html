@@ -14,16 +14,15 @@
     <main>
         <section class="client">
             <h3>Datos cliente</h3>
-            <!-- <div class="container" id="searchClient">
-                <label for="clientToFind">Buscar cliente</label>
-                <input type="search" name="clientToFind" id="clientToFind" value="Matias">
-                <input type="button" value="Buscar">
-                <input type="button" value="Agregar">
-            </div> -->
+            <div class="container" id="searchClient">
+                <label for="clientToFind">Buscar</label>
+                <input type="search" name="clientToFind" id="clientToFind" placeholder="Nombre...">
+                <input type="button" value="Nuevo">
+            </div>
             <div class="container" id="resultClient">
                 <form action="">
                     <fieldset> 
-                        <legend>Agregar Cliente</legend>
+                        <legend>Cliente</legend>
                         <label for="clientName">Nombre:</label>
                         <input type="text" name="clientName" id="clientName">
                         <label for="clientId">Cuit/Dni:</label>
@@ -36,7 +35,7 @@
                         <input type="text" name="clientAddress" id="clientAddress">
                         <label for="clientCity">Localidad:</label>
                         <input type="text" name="clientCity" id="clientCity">
-                        <input type="button" value="Agregar" id="clientAdd">
+                        <input type="button" value="Seleccionar" id="clientAdd">
                     </fieldset>
                 </form>
             </div>
@@ -54,11 +53,8 @@
         </section>
         <section class="product">
             <h3>Productos</h3>
-            <!-- <div class="container" id="searchProduct">
-                <label for="productToFind">Buscar producto</label>
-                <input type="search" name="productToFind" id="productToFind">
-                <input type="button" value="Buscar">
-            </div> -->
+            <input type="search" name="searchProduct" id="searchProduct" placeholder="Producto...">
+
             <label for="product">Producto</label>
             <input type="text" name="product" id="productName">
             <label for="productCant">Cantidad</label>
@@ -70,7 +66,6 @@
             <input type="button" value="Agregar" id="productAdd">
         </section>
 
-        <input type="search" name="searchProduct" id="searchProduct" placeholder="Producto...">
         <section id="resultSearch">
           
         </section>

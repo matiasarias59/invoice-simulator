@@ -184,3 +184,4 @@ productAdd.addEventListener("click", UpdateLocalDB);
 
 //Busqueda/Filtrado de productos
 searchProduct.addEventListener("keyup",UpdateSearch);
+searchProduct.addEventListener("search",UpdateSearch);
