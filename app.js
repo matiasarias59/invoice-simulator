@@ -48,12 +48,6 @@ class Product{
         this.price = price;
         this.iva = iva;
     }
-    /* constructor(obj){
-        this.nomb = obj.nomb;
-        this.cant = obj.cant;
-        this.price = obj.price;
-        this.iva = obj.iva
-    } */
     /* calcularIva(){
         return this.price * this.iva / 100;
     }
@@ -124,24 +118,37 @@ const UpdateLocalDB = () =>{
     localStorage.setItem("productDB", JSON.stringify(productDB))
 }
 
-/* //Funcion para mostrar los productos
-const showProducts = () =>{
-    let producto =document.createElement("div");
-    for(const prod of productDB){
-        
-        producto.innerHTML =`<h4>Cantidad:</h4> ${prod.cant}
-        <h4>Producto:</h4> ${prod.nomb}
-        <h4>Precio:</h4> ${prod.price}
-        <h4>IVA:</h4> ${prod.iva}`;
-        productosFinal.append(producto);
-      
-        console.log(
-            `Nombre: ${prod.nomb}
-             Cantidad: ${prod.cant}
-             Precio: ${prod.price}
-             Iva: ${prod.iva}`);
+// Busqueda y Filtrado de Productos
+
+
+const searchProduct = document.getElementById("searchProduct"); //input de busqueda
+
+//Funcion para filter de busqueda
+const Search = (element) =>{
+    return element.nomb.includes(searchProduct.value)
+
+} 
+
+const resultSearch = document.getElementById("resultSearch");//section donde se agregaran los productos a mostrar
+
+//Filtra la DB de productos y los muestra
+const UpdateSearch = () =>{
+    resultSearch.innerHTML = "";
+   const productDBFilter = productDB.filter(Search);
+    console.log(productDBFilter);
+    productDBFilter.forEach(el => {
+        const contentResultSearch = document.createElement("div");
+        contentResultSearch.innerHTML = `<p>Producto: ${el.nomb}</p>  
+        <p>Cantidad: ${el.cant}</p>
+        <p>Precio: ${el.price}</p>
+        <p>IVA: ${el.iva}</p>`;
+        resultSearch.appendChild(contentResultSearch);
+    });
+    if(searchProduct.value===""){
+        resultSearch.innerHTML = "";
     }
-} */
+    
+}
 
 //ingresar validez -----------------------
 
@@ -173,52 +180,7 @@ clientAdd.addEventListener("click", newClient);
 SyncLocalDB();
 const productAdd = document.getElementById("productAdd");
 productAdd.addEventListener("click", newProduct);
-//productAdd.addEventListener("click", showProducts);
 productAdd.addEventListener("click", UpdateLocalDB);
 
-
-// Busqueda y Filtrado de Productos
-
-
-const searchProduct = document.getElementById("searchProduct"); //input de busqueda
-
-//Funcion para filter de busqueda
-const Search = (element) =>{
-    return element.nomb.includes(searchProduct.value)
-
-} 
-
-const resultSearch = document.getElementById("resultSearch");//section donde se agregaran los productos a mostrar
-
-
-const UpdateSearch = () =>{
-    resultSearch.innerHTML = "";
-   const productDBFilter = productDB.filter(Search);
-    console.log(productDBFilter);
-    productDBFilter.forEach(el => {
-        const contentResultSearch = document.createElement("div");
-        contentResultSearch.innerHTML = `<p>Producto: ${el.nomb}</p>  
-        <p>Cantidad: ${el.cant}</p>
-        <p>Precio: ${el.price}</p>
-        <p>IVA: ${el.iva}</p>`;
-        resultSearch.appendChild(contentResultSearch);
-    });
-    
-}
-
-
-
-/* const ShowResultSearch = () =>{
-    productDBFilter.forEach(el => {
-        contentResultSearch.innerHTML = `<p>Producto: ${el.productName}</p>  
-        <p>Cantidad: ${el.productStock}</p>
-        <p>Precio: ${el.productPrice}</p>
-        <p>IVA: ${el.productIva}</p>`;
-        resultSearch.append(contentResultSearch);
-    });
-
-} */
-
+//Busqueda/Filtrado de productos
 searchProduct.addEventListener("keyup",UpdateSearch);
-
-//searchProduct.addEventListener("keyup",ShowResultSearch);
