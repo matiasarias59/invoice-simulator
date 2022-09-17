@@ -42,9 +42,11 @@ const newClient = () =>{
 
 // Definicion Clase Producto
 class Product{
-    constructor(nomb, cant, price, iva){
-        this.nomb = nomb;
-        this.cant = cant;
+    constructor(brand, model, desc, stock, price, iva){
+        this.brand = brand;
+        this.model = model;
+        this.desc = desc;
+        this.stock = stock;
         this.price = price;
         this.iva = iva;
     }
@@ -68,9 +70,10 @@ class ProductInCarrito{
 }
 
 
-
-const productName = document.getElementById("productName");
-const productCant = document.getElementById("productCant");
+const productBrand = document.getElementById("productBrand");
+const productModel = document.getElementById("productModel");
+const productDesc = document.getElementById("productDesc");
+const productStock = document.getElementById("productStock");
 const productPrice = document.getElementById("productPrice");
 const productIva = document.getElementById("productIva");
 const productosFinal = document.getElementById("productosFinal");
@@ -84,8 +87,10 @@ const SyncLocalDB = () =>{
         for (const product of productDBSync){
             console.log(product);
             const productToSync = new Product (
-                product.nomb,
-                product.cant,
+                product.brand,
+                product.model,
+                product.desc,
+                product.stock,
                 product.price,
                 product.iva
             )
@@ -98,16 +103,20 @@ const SyncLocalDB = () =>{
 //Funcion para agregar productos
 const newProduct = () =>{
     let newProduct = new Product(
-        productName.value,
-        productCant.value,
+        productBrand.value,
+        productModel.value,
+        productDesc.value,
+        productStock.value,
         productPrice.value,
-        productIva.value,
+        productIva.value
     );
     productDB.push(newProduct);
     console.log(productDB);
     //Limpia los campos del formulario
-    productName.value ="";
-    productCant.value ="";
+    productBrand.value = "";
+    productModel.value = "";
+    productDesc.value = "";
+    productStock.value ="";
     productPrice.value ="";
     productIva.value ="";
 
@@ -125,7 +134,7 @@ const searchProduct = document.getElementById("searchProduct"); //input de busqu
 
 //Funcion para filter de busqueda
 const Search = (element) =>{
-    return element.nomb.includes(searchProduct.value)
+    return element.model.includes(searchProduct.value)
 
 } 
 
@@ -136,14 +145,20 @@ const UpdateSearch = () =>{
     resultSearch.innerHTML = "";
    const productDBFilter = productDB.filter(Search);
     console.log(productDBFilter);
-    productDBFilter.forEach(el => {
-        const contentResultSearch = document.createElement("div");
-        contentResultSearch.innerHTML = `<p>Producto: ${el.nomb}</p>  
-        <p>Cantidad: ${el.cant}</p>
-        <p>Precio: ${el.price}</p>
-        <p>IVA: ${el.iva}</p>`;
-        resultSearch.appendChild(contentResultSearch);
-    });
+    if(productDBFilter.length === 0){
+        resultSearch.innerHTML = "<p>Lo sentimos no hay resultados</p>";
+    }else{
+        productDBFilter.forEach(el => {
+            const contentResultSearch = document.createElement("div");
+            contentResultSearch.innerHTML = `<p>Marca: ${el.brand}</p>
+            <p>Modelo: ${el.model}</p> 
+            <p>Descripción: ${el.desc}</p> 
+            <p>Stock: ${el.stock}</p>
+            <p>Precio: ${el.price}</p>
+            <p>IVA: ${el.iva}</p>`;
+            resultSearch.appendChild(contentResultSearch);
+        })
+    }
     if(searchProduct.value===""){
         resultSearch.innerHTML = "";
     }
