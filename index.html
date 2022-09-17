@@ -12,8 +12,8 @@
         <h1>Bienvenidos a Rosario Tech</h1>
     </header>
     <main>
-        <section class="client">
-            <h3>Datos cliente</h3>
+        <section id="client">
+            <h3>Cliente</h3>
             <div class="container" id="searchClient">
                 <label for="clientToFind">Buscar</label>
                 <input type="search" name="clientToFind" id="clientToFind" placeholder="Nombre...">
@@ -21,8 +21,8 @@
             </div>
             <div class="container" id="resultClient">
                 <form action="">
-                    <fieldset> 
-                        <legend>Cliente</legend>
+                    <fieldset class="result"> 
+                        <legend>Datos Cliente</legend>
                         <label for="clientName">Nombre:</label>
                         <input type="text" name="clientName" id="clientName">
                         <label for="clientId">Cuit/Dni:</label>
@@ -39,8 +39,10 @@
                     </fieldset>
                 </form>
             </div>
+        </section>
+        <section id="tipoDeOrden">
+            <h3>Tipo de orden</h3>
             <div class="container">
-                <h3>Tipo de orden</h3>
                 <label for="notaVenta">Nota de Venta</label>
                 <input type="radio" name="tipoDeOrden" id="notaVenta">
                 <label for="presupuesto">Presupuesto</label>
@@ -51,33 +53,31 @@
                 </div>
             </div>
         </section>
-        <section class="product">
+        <section id="product">
             <h3>Productos</h3>
-            <input type="search" name="searchProduct" id="searchProduct" placeholder="Producto...">
-
-            <label for="product">Producto</label>
-            <input type="text" name="product" id="productName">
-            <label for="productCant">Cantidad</label>
-            <input type="number" name="productCant" id="productCant">
-            <label for="productPrice">Precio</label>
-            <input type="text" name="productPrice" id="productPrice">
-            <label for="productIva">IVA</label>
-            <input type="text" name="productIva" id="productIva">
-            <input type="button" value="Agregar" id="productAdd">
-        </section>
-
-        <section id="resultSearch">
-          
-        </section>
-
-        <section class="resultado">
-            <div id="clienteFinal">
-                
-                
+            <div class="container">
+                <label for="searchProduct">Buscar</label>
+                <input type="search" name="searchProduct" id="searchProduct" placeholder="Producto...">
+                <input type="button" value="Nuevo">
             </div>
-            <div id="productosFinal">
-                
-
+            <div class="container">
+                <fieldset class="result">
+                    <legend>Productos</legend>
+                    <section id="resultSearch">
+                    
+                    </section>       
+                </fieldset>
+            </div>
+            <div class="container">
+                <label for="product">Producto</label>
+                <input type="text" name="product" id="productName">
+                <label for="productCant">Cantidad</label>
+                <input type="number" name="productCant" id="productCant">
+                <label for="productPrice">Precio</label>
+                <input type="text" name="productPrice" id="productPrice">
+                <label for="productIva">IVA</label>
+                <input type="text" name="productIva" id="productIva">
+                <input type="button" value="Agregar" id="productAdd">
             </div>
         </section>
     </main>
