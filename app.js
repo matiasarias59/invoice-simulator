@@ -76,7 +76,41 @@ const showNewClientContainer = () =>{
     newClientContainer.style.display="block"
 }
 
+// ------Busqueda y Filtrado de Productos------------------------------
 
+const clientToFind = document.getElementById("clientToFind"); //input de busqueda
+
+//Funcion para filter de busqueda
+const clientSearch = (element) =>{
+    return element.nomb.includes(clientToFind.value)
+} 
+
+const resultClientSearch = document.getElementById("resultClientSearch");//section donde se agregaran los clientes resultados de busqueda
+
+//Filtra la DB de productos y los muestra
+const UpdateClientSearch = () =>{
+    resultClientSearch.innerHTML = "";
+   const clientDBFilter = clientDB.filter(clientSearch);
+    console.log(clientDBFilter);
+    if(clientDBFilter.length === 0){
+        resultClientSearch.innerHTML = "<p>Lo sentimos no hay resultados</p>";
+    }else{
+        clientDBFilter.forEach(el => {
+            const contentResultClientSearch = document.createElement("div");
+            contentResultClientSearch.innerHTML = `<p>Nombre: <span class="clientData">${el.nomb}</span></p>
+            <p>Cuit / Dni: <span class="clientData">${el.dni}</span></p>
+            <p>Telefono: <span class="clientData">${el.tel}</span></p>
+            <p>E-mail: <span class="clientData">${el.mail}</span></p>
+            <p>Dirección: <span class="clientData">${el.dir}</span></p>
+            <p>Localidad: <span class="clientData">${el.city}</span></p>`;
+            resultClientSearch.appendChild(contentResultClientSearch);
+        })
+    }
+    if(clientToFind.value===""){
+        resultClientSearch.innerHTML = "";
+    } 
+}
+//----------------------------------------------------------------
 // Agregar Cliente a DB
 SyncLocalClientDB();
 
@@ -87,7 +121,9 @@ const clientAdd = document.getElementById("clientAdd");
 clientAdd.addEventListener("click", newClient);
 clientAdd.addEventListener("click", UpdateLocalClientDB);
 
-
+//Busqueda/Filtrado de clientes
+clientToFind.addEventListener("keyup",UpdateClientSearch);
+clientToFind.addEventListener("search",UpdateClientSearch);
 
 
 // ------------ SECCION PRODUCTOS-----------
@@ -213,8 +249,7 @@ const UpdateProductSearch = () =>{
     }
     if(searchProduct.value===""){
         resultSearch.innerHTML = "";
-    }
-    
+    } 
 }
 
 // Agregar productos
