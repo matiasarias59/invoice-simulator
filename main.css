@@ -44,3 +44,7 @@ h3{
     color: white;
     text-shadow: 0.2rem 0.2rem 0.5rem black;
 }
+
+#newClientContainer{
+    display: none;
+}

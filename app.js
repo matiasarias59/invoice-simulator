@@ -1,5 +1,7 @@
 //Script para trabajar con el dom 
 
+//------ SECCION CLIENTES -------
+
 //Definicion Clase Cliente
 class Client{
     constructor(nomb, dni, tel, mail, dir, city){
@@ -36,6 +38,7 @@ const newClient = () =>{
     );
     clientDB.push(newClient);
     console.log(clientDB);
+    newClientContainer.style.display="none"
     /* clienteFinal.innerHTML=`<div class="container_resultado">
                     <h4>Nombre:</h4> ${newClient.nomb}
                     <h4>Cuit/Dni:</h4> ${newClient.dni}
@@ -46,6 +49,25 @@ const newClient = () =>{
                 </div>`; */
 
 }
+
+// Funcion para mostrar pestaña de agregar cliente
+const newClientContainer = document.getElementById("newClientContainer");
+const showNewClientContainer = () =>{
+    newClientContainer.style.display="block"
+}
+
+
+// Agregar Cliente a DB
+
+const newClientBtn = document.getElementById("newClientBtn");
+newClientBtn.addEventListener("click", showNewClientContainer)
+
+const clientAdd = document.getElementById("clientAdd");
+clientAdd.addEventListener("click", newClient);
+
+
+
+// ------------ SECCION PRODUCTOS-----------
 
 // Definicion Clase Producto
 class Product{
@@ -86,26 +108,7 @@ const productIva = document.getElementById("productIva");
 const productosFinal = document.getElementById("productosFinal");
 const productDB = []//Array DB para almacenar productos. posteriormente se manda al localStorage
 
-// Funcion para sincronizar el localStorage
-const SyncLocalDB = () =>{
-    const productDBSync = (JSON.parse(localStorage.getItem("productDB")));
-    console.log(productDBSync);
-    if(productDBSync!=null){
-        for (const product of productDBSync){
-            console.log(product);
-            const productToSync = new Product (
-                product.brand,
-                product.model,
-                product.desc,
-                product.stock,
-                product.price,
-                product.iva
-            )
-            productDB.push(productToSync);
-            console.log(productDB);
-        }
-    }
-}
+
 
 //Funcion para agregar productos
 const newProduct = () =>{
@@ -130,8 +133,29 @@ const newProduct = () =>{
 }
 
 // Funcion para actulizar el localStorage
-const UpdateLocalDB = () =>{
+const UpdateLocalProductDB = () =>{
     localStorage.setItem("productDB", JSON.stringify(productDB))
+}
+
+// Funcion para sincronizar el localStorage de Productos
+const SyncLocalProductDB = () =>{
+    const productDBSync = (JSON.parse(localStorage.getItem("productDB")));
+    console.log(productDBSync);
+    if(productDBSync!=null){
+        for (const product of productDBSync){
+            console.log(product);
+            const productToSync = new Product (
+                product.brand,
+                product.model,
+                product.desc,
+                product.stock,
+                product.price,
+                product.iva
+            )
+            productDB.push(productToSync);
+            console.log(productDB);
+        }
+    }
 }
 
 // Busqueda y Filtrado de Productos
@@ -139,16 +163,16 @@ const UpdateLocalDB = () =>{
 const searchProduct = document.getElementById("searchProduct"); //input de busqueda
 
 //Funcion para filter de busqueda
-const Search = (element) =>{
+const productSearch = (element) =>{
     return element.model.includes(searchProduct.value)
 } 
 
 const resultSearch = document.getElementById("resultSearch");//section donde se agregaran los productos a mostrar
 
 //Filtra la DB de productos y los muestra
-const UpdateSearch = () =>{
+const UpdateProductSearch = () =>{
     resultSearch.innerHTML = "";
-   const productDBFilter = productDB.filter(Search);
+   const productDBFilter = productDB.filter(productSearch);
     console.log(productDBFilter);
     if(productDBFilter.length === 0){
         resultSearch.innerHTML = "<p>Lo sentimos no hay resultados</p>";
@@ -170,6 +194,19 @@ const UpdateSearch = () =>{
     
 }
 
+// Agregar productos
+SyncLocalProductDB();
+const productAdd = document.getElementById("productAdd");
+productAdd.addEventListener("click", newProduct);
+productAdd.addEventListener("click", UpdateLocalProductDB);
+
+//Busqueda/Filtrado de productos
+searchProduct.addEventListener("keyup",UpdateProductSearch);
+searchProduct.addEventListener("search",UpdateProductSearch);
+
+
+// -------------- SECCION TIPO DE DOCUMENTO -----------------
+
 //ingresar validez -----------------------
 
 const presupuesto = document.getElementById("presupuesto");
@@ -189,19 +226,4 @@ function notaVentaIsChecked(){
     containerValidez.style.display = "none";
     console.log("cliqueaste nota de venta");
 }
-// Fin modulo ingresar validez---------------------
-
-// Tomar Cliente
-
-const clientAdd = document.getElementById("clientAdd");
-clientAdd.addEventListener("click", newClient);
-
-// Agregar productos
-SyncLocalDB();
-const productAdd = document.getElementById("productAdd");
-productAdd.addEventListener("click", newProduct);
-productAdd.addEventListener("click", UpdateLocalDB);
-
-//Busqueda/Filtrado de productos
-searchProduct.addEventListener("keyup",UpdateSearch);
-searchProduct.addEventListener("search",UpdateSearch);
+// Fin modulo ingresar validez--------------------
