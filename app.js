@@ -15,28 +15,35 @@ class Client{
     }   */ 
 }
 
-const client = [];
+const newClientName = document.getElementById("newClientName");
+const newClientId = document.getElementById("newClientId");
+const newClientPhone = document.getElementById("newClientPhone");
+const newClientMail = document.getElementById("newClientMail");
+const newClientAddress = document.getElementById("newClientAddress");
+const newClientCity = document.getElementById("newClientCity");
+
+const clientDB = [];
 const clienteFinal = document.getElementById("clienteFinal");
 
 const newClient = () =>{
     let newClient = new Client(
-        document.getElementById("clientName").value,
-        document.getElementById("clientId").value,
-        document.getElementById("clientPhone").value,
-        document.getElementById("clientMail").value,
-        document.getElementById("clientAddress").value,
-        document.getElementById("clientCity").value,
+        newClientName.value,
+        newClientId.value,
+        newClientPhone.value,
+        newClientMail.value,
+        newClientAddress.value,
+        newClientCity.value,
     );
-    client.push(newClient);
-    console.log(client);
-    clienteFinal.innerHTML=`<div class="container_resultado">
+    clientDB.push(newClient);
+    console.log(clientDB);
+    /* clienteFinal.innerHTML=`<div class="container_resultado">
                     <h4>Nombre:</h4> ${newClient.nomb}
                     <h4>Cuit/Dni:</h4> ${newClient.dni}
                     <h4>Telefono:</h4> ${newClient.tel}
                     <h4>E-mail:</h4> ${newClient.mail}
                     <h4>Domicilio:</h4> ${newClient.dir}
                     <h4>Localidad:</h4> ${newClient.city}
-                </div>`;
+                </div>`; */
 
 }
 
@@ -129,13 +136,11 @@ const UpdateLocalDB = () =>{
 
 // Busqueda y Filtrado de Productos
 
-
 const searchProduct = document.getElementById("searchProduct"); //input de busqueda
 
 //Funcion para filter de busqueda
 const Search = (element) =>{
     return element.model.includes(searchProduct.value)
-
 } 
 
 const resultSearch = document.getElementById("resultSearch");//section donde se agregaran los productos a mostrar

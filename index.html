@@ -19,25 +19,33 @@
                 <input type="search" name="clientToFind" id="clientToFind" placeholder="Nombre...">
                 <input type="button" value="Nuevo">
             </div>
-            <div class="container" id="resultClient">
+            <div class="container" id="newClientContainer">
                 <form action="">
-                    <fieldset class="result"> 
-                        <legend>Datos Cliente</legend>
-                        <label for="clientName">Nombre:</label>
-                        <input type="text" name="clientName" id="clientName">
-                        <label for="clientId">Cuit/Dni:</label>
-                        <input type="text" name="clientId" id="clientId">
-                        <label for="clientPhone">Telefono:</label>
-                        <input type="tel" name="clientPhone" id="clientPhone">
-                        <label for="clientMail">E-mail:</label>
-                        <input type="mail" name="clientMail" id="clientMail">
-                        <label for="clientAddress">Direccion:</label>
-                        <input type="text" name="clientAddress" id="clientAddress">
-                        <label for="clientCity">Localidad:</label>
-                        <input type="text" name="clientCity" id="clientCity">
-                        <input type="button" value="Seleccionar" id="clientAdd">
+                    <fieldset> 
+                        <legend>Nuevo Cliente</legend>
+                        <label for="newClientName">Nombre:</label>
+                        <input type="text" name="newClientName" id="newClientName">
+                        <label for="newClientId">Cuit/Dni:</label>
+                        <input type="text" name="newClientId" id="newClientId">
+                        <label for="newClientPhone">Telefono:</label>
+                        <input type="tel" name="newClientPhone" id="newClientPhone">
+                        <label for="newClientMail">E-mail:</label>
+                        <input type="mail" name="newClientMail" id="newClientMail">
+                        <label for="newClientAddress">Direccion:</label>
+                        <input type="text" name="newClientAddress" id="newClientAddress">
+                        <label for="newClientCity">Localidad:</label>
+                        <input type="text" name="newClientCity" id="newClientCity">
+                        <input type="button" value="Agregar" id="clientAdd">
                     </fieldset>
                 </form>
+            </div>
+            <div class="container" id="selectedClient">
+                <p>Nombre: <span class="clientData">Matias</span></p>
+                <p>Cuit / Dni: <span class="clientData">39501637</span></p>
+                <p>Telefono: <span class="clientData">152156760</span></p>
+                <p>E-mail: <span class="clientData">matiasarias50@gmail.com</span></p>
+                <p>Dirección: <span class="clientData">Urquiza 7931</span></p>
+                <p>Localidad: <span class="clientData">Rosario</span></p>
             </div>
         </section>
         <section id="tipoDeOrden">
@@ -49,7 +57,7 @@
                 <input type="radio" name="tipoDeOrden" id="presupuesto">
                 <div id ="validez__presupuesto">
                     <label for="validez">Validez:</label>
-                    <input type="number" name="validez" id="validez">   
+                    <input type="number" name="validez" id="validez"><span>días</span>   
                 </div>
             </div>
         </section>
