@@ -12,9 +12,6 @@ class Client{
         this.dir = dir;
         this.city = city;
     }
-    /* mostrar() {
-        return ("Nombre: "+this.nomb+"\nDNI: "+this.dni+"\nTelefono: "+this.tel+"\nE-mail: "+this.mail+"\nDireccion: "+this.dir);
-    }   */ 
 }
 
 const newClientName = document.getElementById("newClientName");
@@ -39,15 +36,38 @@ const newClient = () =>{
     clientDB.push(newClient);
     console.log(clientDB);
     newClientContainer.style.display="none"
-    /* clienteFinal.innerHTML=`<div class="container_resultado">
-                    <h4>Nombre:</h4> ${newClient.nomb}
-                    <h4>Cuit/Dni:</h4> ${newClient.dni}
-                    <h4>Telefono:</h4> ${newClient.tel}
-                    <h4>E-mail:</h4> ${newClient.mail}
-                    <h4>Domicilio:</h4> ${newClient.dir}
-                    <h4>Localidad:</h4> ${newClient.city}
-                </div>`; */
+    newClientName.value = "";
+    newClientId.value = "";
+    newClientPhone.value = "";
+    newClientMail.value = "";
+    newClientAddress.value = "";
+    newClientCity.value = "";
+}
 
+// Funcion para actulizar el localStorage de clientes
+const UpdateLocalClientDB = () =>{
+    localStorage.setItem("clientDB", JSON.stringify(clientDB))
+}
+
+// Funcion para sincronizar el localStorage de Clientes
+const SyncLocalClientDB = () =>{
+    const clientDBSync = (JSON.parse(localStorage.getItem("clientDB")));
+    console.log(clientDBSync);
+    if(clientDBSync!=null){
+        for (const client of clientDBSync){
+            console.log(client);
+            const clientToSync = new Client (
+                client.nomb,
+                client.dni,
+                client.tel,
+                client.mail,
+                client.dir,
+                client.city
+            )
+            clientDB.push(clientToSync);
+            console.log(clientDB);
+        }
+    }
 }
 
 // Funcion para mostrar pestaña de agregar cliente
@@ -58,12 +78,15 @@ const showNewClientContainer = () =>{
 
 
 // Agregar Cliente a DB
+SyncLocalClientDB();
 
 const newClientBtn = document.getElementById("newClientBtn");
 newClientBtn.addEventListener("click", showNewClientContainer)
 
 const clientAdd = document.getElementById("clientAdd");
 clientAdd.addEventListener("click", newClient);
+clientAdd.addEventListener("click", UpdateLocalClientDB);
+
 
 
 
