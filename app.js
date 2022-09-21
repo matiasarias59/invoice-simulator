@@ -35,6 +35,17 @@ const newClient = () =>{
     );
     clientDB.push(newClient);
     console.log(clientDB);
+    cancelNewClient();
+    /* newClientContainer.style.display="none"
+    newClientName.value = "";
+    newClientId.value = "";
+    newClientPhone.value = "";
+    newClientMail.value = "";
+    newClientAddress.value = "";
+    newClientCity.value = ""; */
+}
+
+const cancelNewClient = () =>{
     newClientContainer.style.display="none"
     newClientName.value = "";
     newClientId.value = "";
@@ -75,6 +86,30 @@ const newClientContainer = document.getElementById("newClientContainer");
 const showNewClientContainer = () =>{
     newClientContainer.style.display="block"
 }
+//Funcion para seleccionar el cliente en el resultado de busqueda
+const selectedClient = document.getElementById("selectedClient");
+const selectedClientBtn = document.getElementsByClassName("selectedClientBtn");
+
+const selectClient = (clientDBFilter)=>{
+    console.log(selectedClientBtn.length);
+    const arrSelectedClientBtn = [...selectedClientBtn];
+    for (const btn of selectedClientBtn) {
+        btn.addEventListener("click",function(){
+            console.log("Clickeaste seleccionar");
+            console.log(clientDBFilter);
+            console.log(arrSelectedClientBtn)
+            selectedClient.innerHTML=`<p>Nombre: <span class="clientData">${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].nomb}</span></p>
+            <p>Cuit / Dni: <span class="clientData">${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].dni}</span></p>
+            <p>Telefono: <span class="clientData">${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].tel}</span></p>
+            <p>E-mail: <span class="clientData">${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].mail}</span></p>
+            <p>Dirección: <span class="clientData">${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].dir}</span></p>
+            <p>Localidad: <span class="clientData">${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].city}</span></p>`; 
+            clientToFind.value="";
+            resultClientSearch.innerHTML = "";
+        }) 
+    }
+    
+};
 
 // ------Busqueda y Filtrado de Productos------------------------------
 
@@ -88,9 +123,11 @@ const clientSearch = (element) =>{
 const resultClientSearch = document.getElementById("resultClientSearch");//section donde se agregaran los clientes resultados de busqueda
 
 //Filtra la DB de productos y los muestra
+
 const UpdateClientSearch = () =>{
+    cancelNewClient();
     resultClientSearch.innerHTML = "";
-   const clientDBFilter = clientDB.filter(clientSearch);
+    const clientDBFilter = clientDB.filter(clientSearch);
     console.log(clientDBFilter);
     if(clientDBFilter.length === 0){
         resultClientSearch.innerHTML = "<p>Lo sentimos no hay resultados</p>";
@@ -102,20 +139,26 @@ const UpdateClientSearch = () =>{
             <p>Telefono: <span class="clientData">${el.tel}</span></p>
             <p>E-mail: <span class="clientData">${el.mail}</span></p>
             <p>Dirección: <span class="clientData">${el.dir}</span></p>
-            <p>Localidad: <span class="clientData">${el.city}</span></p>`;
+            <p>Localidad: <span class="clientData">${el.city}</span></p>
+            <button class="selectedClientBtn">Seleccionar</button>`;
+           // <button id="indexClient${clientDBFilter.indexOf(el)}">Seleccionar</button>;
             resultClientSearch.appendChild(contentResultClientSearch);
         })
+        selectClient(clientDBFilter);        
     }
     if(clientToFind.value===""){
         resultClientSearch.innerHTML = "";
-    } 
+    }   
 }
+
 //----------------------------------------------------------------
 // Agregar Cliente a DB
 SyncLocalClientDB();
 
 const newClientBtn = document.getElementById("newClientBtn");
-newClientBtn.addEventListener("click", showNewClientContainer)
+newClientBtn.addEventListener("click", showNewClientContainer);
+const cancelClientBtn = document.getElementById("cancelClientBtn");
+cancelClientBtn.addEventListener("click", cancelNewClient);
 
 const clientAdd = document.getElementById("clientAdd");
 clientAdd.addEventListener("click", newClient);
@@ -284,4 +327,4 @@ function notaVentaIsChecked(){
     containerValidez.style.display = "none";
     console.log("cliqueaste nota de venta");
 }
-// Fin modulo ingresar validez--------------------
+// Fin modulo ingresar validez------------------
