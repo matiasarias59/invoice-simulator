@@ -202,7 +202,24 @@ const productIva = document.getElementById("productIva");
 const productosFinal = document.getElementById("productosFinal");
 const productDB = []//Array DB para almacenar productos. posteriormente se manda al localStorage
 
+const newProductBtn = document.getElementById("newProductBtn");
+const cancelProductAdd = document.getElementById("cancelProductAdd");
+const newProductContainer = document.getElementById("newProductContainer");
 
+//Funcion para mostrar container Nuevo Producto
+const showNewProductContainer = () =>{
+    newProductContainer.style.display="block"
+}
+
+//Funcion para limpiar campos de input de productos
+const clearProductForm = () =>{
+    productBrand.value = "";
+    productModel.value = "";
+    productDesc.value = "";
+    productStock.value ="";
+    productPrice.value ="";
+    productIva.value ="";
+}
 
 //Funcion para agregar productos
 const newProduct = () =>{
@@ -217,13 +234,13 @@ const newProduct = () =>{
     productDB.push(newProduct);
     console.log(productDB);
     //Limpia los campos del formulario
-    productBrand.value = "";
-    productModel.value = "";
-    productDesc.value = "";
-    productStock.value ="";
-    productPrice.value ="";
-    productIva.value ="";
+    clearProductForm();
 
+}
+
+const cancelNewProduct = () =>{
+    newProductContainer.style.display="none"
+    clearProductForm();
 }
 
 // Funcion para actulizar el localStorage
@@ -289,6 +306,10 @@ const UpdateProductSearch = () =>{
 
 // Agregar productos
 SyncLocalProductDB();
+
+newProductBtn.addEventListener("click", showNewProductContainer);
+cancelProductAdd.addEventListener("click", cancelNewProduct);
+
 const productAdd = document.getElementById("productAdd");
 productAdd.addEventListener("click", newProduct);
 productAdd.addEventListener("click", UpdateLocalProductDB);
