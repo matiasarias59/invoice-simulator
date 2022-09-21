@@ -36,13 +36,6 @@ const newClient = () =>{
     clientDB.push(newClient);
     console.log(clientDB);
     cancelNewClient();
-    /* newClientContainer.style.display="none"
-    newClientName.value = "";
-    newClientId.value = "";
-    newClientPhone.value = "";
-    newClientMail.value = "";
-    newClientAddress.value = "";
-    newClientCity.value = ""; */
 }
 
 const cancelNewClient = () =>{
@@ -141,7 +134,6 @@ const UpdateClientSearch = () =>{
             <p>Dirección: <span class="clientData">${el.dir}</span></p>
             <p>Localidad: <span class="clientData">${el.city}</span></p>
             <button class="selectedClientBtn">Seleccionar</button>`;
-           // <button id="indexClient${clientDBFilter.indexOf(el)}">Seleccionar</button>;
             resultClientSearch.appendChild(contentResultClientSearch);
         })
         selectClient(clientDBFilter);        
