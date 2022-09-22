@@ -80,8 +80,8 @@ const showNewClientContainer = () =>{
     newClientContainer.style.display="block"
 }
 //Funcion para seleccionar el cliente en el resultado de busqueda
-const selectedClient = document.getElementById("selectedClient");
-const selectedClientBtn = document.getElementsByClassName("selectedClientBtn");
+const selectedClient = document.getElementById("selectedClient"); //div donde se mostrara el cliente seleccionado
+const selectedClientBtn = document.getElementsByClassName("selectedClientBtn"); // btn para seleccionar cliente
 
 const selectClient = (clientDBFilter)=>{
     console.log(selectedClientBtn.length);
@@ -192,14 +192,13 @@ class ProductInCarrito{
     }
 }
 
-
 const productBrand = document.getElementById("productBrand");
 const productModel = document.getElementById("productModel");
 const productDesc = document.getElementById("productDesc");
 const productStock = document.getElementById("productStock");
 const productPrice = document.getElementById("productPrice");
 const productIva = document.getElementById("productIva");
-const productosFinal = document.getElementById("productosFinal");
+//const productosFinal = document.getElementById("productosFinal");
 const productDB = []//Array DB para almacenar productos. posteriormente se manda al localStorage
 
 const newProductBtn = document.getElementById("newProductBtn");
@@ -280,8 +279,9 @@ const productSearch = (element) =>{
 
 const resultSearch = document.getElementById("resultSearch");//section donde se agregaran los productos a mostrar
 
-//Filtra la DB de productos y los muestra
+// Funcion Filtra la DB de productos y los muestra
 const UpdateProductSearch = () =>{
+    cancelNewProduct();
     resultSearch.innerHTML = "";
    const productDBFilter = productDB.filter(productSearch);
     console.log(productDBFilter);
@@ -295,16 +295,44 @@ const UpdateProductSearch = () =>{
             <p>Descripción: ${el.desc}</p> 
             <p>Stock: ${el.stock}</p>
             <p>Precio: ${el.price}</p>
-            <p>IVA: ${el.iva}</p>`;
+            <p>IVA: ${el.iva}</p>
+            <input type="number" name="productQty" class="productQty">
+            <input type="button" value="Agregar al Carrito" class="addCarritoBtn">`;
             resultSearch.appendChild(contentResultSearch);
         })
-    }
+        addProductCarrito(productDBFilter);
+        
+    };
     if(searchProduct.value===""){
         resultSearch.innerHTML = "";
-    } 
-}
+    }; 
+};
 
-// Agregar productos
+// Funcion para agregar elementos al carrito
+const carrito = []; 
+const productQty = document.getElementsByClassName("productQty");
+const addCarritoBtn = document.getElementsByClassName("addCarritoBtn");
+
+const addProductCarrito = (arrFiltrado) =>{
+    //const arrProductQty = [...productQty];
+    const arrAddCarritoBtn = [...addCarritoBtn];
+    for (const btn of addCarritoBtn) {
+        btn.addEventListener("click", function (){
+            const productToCarrito = new ProductInCarrito (
+                productQty[arrAddCarritoBtn.indexOf(btn)].value,
+                arrFiltrado[arrAddCarritoBtn.indexOf(btn)]
+                );
+            carrito.push(productToCarrito);
+            productQty[arrAddCarritoBtn.indexOf(btn)].value="";
+            console.log(carrito)
+        })
+    }
+    
+    
+};
+
+
+// Agregar productos a DB
 SyncLocalProductDB();
 
 newProductBtn.addEventListener("click", showNewProductContainer);
