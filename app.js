@@ -308,6 +308,28 @@ const UpdateProductSearch = () =>{
     }; 
 };
 
+//Funcion para mostrar elementos agregados al carrito
+const carritoContainer = document.getElementById("carritoContainer");
+const carritoTable = document.getElementById("carritoTable");
+
+const updateCarritoTable = (arrCarrito) =>{
+    console.log(arrCarrito)
+        arrCarrito.forEach(el =>{
+       //console.log(el.cant)
+        //console.log(el.product.brand);
+        const rowItem = document.createElement("tr");
+        rowItem.innerHTML = `<td>${el.cant}</td>
+        <td>${el.product.brand}</td>
+        <td>${el.product.model}</td>
+        <td>${el.product.desc}</td>
+        <td>${el.product.price}</td>
+        <td>${el.product.iva}</td>
+        <td> <button>Eliminar</button></td>`;
+        carritoTable.appendChild(rowItem);
+    })
+}
+
+
 // Funcion para agregar elementos al carrito
 const carrito = []; 
 const productQty = document.getElementsByClassName("productQty");
@@ -324,11 +346,10 @@ const addProductCarrito = (arrFiltrado) =>{
                 );
             carrito.push(productToCarrito);
             productQty[arrAddCarritoBtn.indexOf(btn)].value="";
-            console.log(carrito)
+            console.log(carrito);
+            updateCarritoTable(carrito);
         })
-    }
-    
-    
+    } 
 };
 
 
