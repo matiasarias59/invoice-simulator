@@ -285,14 +285,16 @@ const SyncLocalProductDB = () =>{
 // Funcion mostrar productos en catalogo
 const showCatalog = (arrProductDB) =>{
     resultSearch.innerHTML = 
-        `<tr>
-            <th>Stock</th>
-            <th>Marca</th>
-            <th>Modelo</th>
-            <th>Descripción</th>
-            <th>Precio</th>
-            <th>IVA</th>
-        </tr>`;
+        `<thead>
+            <tr>
+                <th>Stock</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>IVA</th>
+            </tr>
+        </thead>`;
     arrProductDB.forEach(el => {
         const contentResultSearch = document.createElement("tr");
         contentResultSearch.innerHTML = `<td>${el.stock}</td>
@@ -301,8 +303,8 @@ const showCatalog = (arrProductDB) =>{
         <td>${el.desc}</td>
         <td>${el.price}</td>
         <td>${el.iva}</td>
-        <td><input type="number" name="productQty" class="productQty"></td>
-        <td><input type="button" value="Agregar al Carrito" class="addCarritoBtn"></td>`;
+        <td class="inputCant"><input type="number" name="productQty" class="productQty"></td>
+        <td class="btnAgregar"><input type="button" value="Agregar al Carrito" class="addCarritoBtn"></td>`;
         resultSearch.appendChild(contentResultSearch);
     })
     addProductCarrito(arrProductDB);

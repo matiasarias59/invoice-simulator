@@ -52,3 +52,32 @@ h3{
 #newProductContainer{
     display: none;
 }
+
+#resultSearch, #carritoTable{
+    margin: auto;
+    background-color: white;
+    width: 80vw;
+}
+
+thead{
+    font-size: 2rem;
+    background-color: blue;
+}
+
+td{
+    border: solid 1px black;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.productQty{
+    width: 4rem;
+}
+
+.inputCant{
+    width: 5rem;
+}
+
+.btnAgregar{
+    width: 3rem;
+}
