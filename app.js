@@ -190,6 +190,16 @@ class ProductInCarrito{
         this.cant = cant;
         this.product = product;
     }
+    calcularIva(){
+        return this.product.price * this.product.iva / 100;
+    }
+    calcularIvaTotal(){
+        return this.cant * this.calcularIva();
+    }
+    calcularTotal(){
+        return this.product.price * this.cant;
+    }
+
 }
 
 const productBrand = document.getElementById("productBrand");
@@ -238,6 +248,7 @@ const newProduct = () =>{
     console.log(productDB);
     //Limpia los campos del formulario
     clearProductForm();
+    showCatalog(productDB);
 
 }
 
@@ -372,6 +383,9 @@ const addProductCarrito = (arrFiltrado) =>{
             productQty[arrAddCarritoBtn.indexOf(btn)].value="";
             //console.log(carrito);
             updateCarritoTable(carrito);
+            console.log(carrito[0].calcularIva())
+            console.log(carrito[0].calcularIvaTotal())
+            console.log(carrito[0].calcularTotal())
             //delProductCarrito(carrito);
         })
     } 
