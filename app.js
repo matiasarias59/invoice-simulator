@@ -205,6 +205,10 @@ const newProductBtn = document.getElementById("newProductBtn");
 const cancelProductAdd = document.getElementById("cancelProductAdd");
 const newProductContainer = document.getElementById("newProductContainer");
 
+const searchProduct = document.getElementById("searchProduct"); //input de busqueda
+const resultSearch = document.getElementById("resultSearch");//section donde se agregaran los productos a mostrar
+
+
 //Funcion para mostrar container Nuevo Producto
 const showNewProductContainer = () =>{
     newProductContainer.style.display="block"
@@ -267,45 +271,69 @@ const SyncLocalProductDB = () =>{
         }
     }
 }
+// Funcion mostrar productos en catalogo
+const showCatalog = (arrProductDB) =>{
+    resultSearch.innerHTML = 
+        `<tr>
+            <th>Stock</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>IVA</th>
+        </tr>`;
+    /* arrProductDB.forEach(el => {
+        const contentResultSearch = document.createElement("div");
+        contentResultSearch.innerHTML = `<p>Marca: ${el.brand}</p>
+        <p>Modelo: ${el.model}</p> 
+        <p>Descripción: ${el.desc}</p> 
+        <p>Stock: ${el.stock}</p>
+        <p>Precio: ${el.price}</p>
+        <p>IVA: ${el.iva}</p>
+        <input type="number" name="productQty" class="productQty">
+        <input type="button" value="Agregar al Carrito" class="addCarritoBtn">`;
+        resultSearch.appendChild(contentResultSearch);
+    }) */
+    arrProductDB.forEach(el => {
+        const contentResultSearch = document.createElement("tr");
+        contentResultSearch.innerHTML = `<td>${el.stock}</td>
+        <td>${el.brand}</td>
+        <td>${el.model}</td>
+        <td>${el.desc}</td>
+        <td>${el.price}</td>
+        <td>${el.iva}</td>
+        <td><input type="number" name="productQty" class="productQty"></td>
+        <td><input type="button" value="Agregar al Carrito" class="addCarritoBtn"></td>`;
+        resultSearch.appendChild(contentResultSearch);
+    })
+    addProductCarrito(arrProductDB);
+}
 
-// Busqueda y Filtrado de Productos
 
-const searchProduct = document.getElementById("searchProduct"); //input de busqueda
+// ----------Busqueda y Filtrado de Productos-----------------
 
 //Funcion para filter de busqueda
 const productSearch = (element) =>{
     return element.model.includes(searchProduct.value)
 } 
 
-const resultSearch = document.getElementById("resultSearch");//section donde se agregaran los productos a mostrar
-
 // Funcion Filtra la DB de productos y los muestra
 const UpdateProductSearch = () =>{
     cancelNewProduct();
-    resultSearch.innerHTML = "";
+    //resultSearch.innerHTML = "";
    const productDBFilter = productDB.filter(productSearch);
     console.log(productDBFilter);
     if(productDBFilter.length === 0){
         resultSearch.innerHTML = "<p>Lo sentimos no hay resultados</p>";
     }else{
-        productDBFilter.forEach(el => {
-            const contentResultSearch = document.createElement("div");
-            contentResultSearch.innerHTML = `<p>Marca: ${el.brand}</p>
-            <p>Modelo: ${el.model}</p> 
-            <p>Descripción: ${el.desc}</p> 
-            <p>Stock: ${el.stock}</p>
-            <p>Precio: ${el.price}</p>
-            <p>IVA: ${el.iva}</p>
-            <input type="number" name="productQty" class="productQty">
-            <input type="button" value="Agregar al Carrito" class="addCarritoBtn">`;
-            resultSearch.appendChild(contentResultSearch);
-        })
-        addProductCarrito(productDBFilter);
+        showCatalog(productDBFilter);
+        //addProductCarrito(productDBFilter);
         
     };
-    if(searchProduct.value===""){
+    searchProduct.value==="" && showCatalog(productDBFilter);
+    /* if(searchProduct.value===""){
         resultSearch.innerHTML = "";
-    }; 
+    }; */ 
 };
 
 //Funcion para mostrar elementos agregados al carrito
@@ -313,10 +341,16 @@ const carritoContainer = document.getElementById("carritoContainer");
 const carritoTable = document.getElementById("carritoTable");
 
 const updateCarritoTable = (arrCarrito) =>{
-    console.log(arrCarrito)
+        carritoTable.innerHTML = `<tr>
+        <th>Cantidad</th>
+        <th>Marca</th>
+        <th>Modelo</th>
+        <th>Descripción</th>
+        <th>Precio</th>
+        <th>IVA</th>
+    </tr>`;
+        console.log(arrCarrito)
         arrCarrito.forEach(el =>{
-       //console.log(el.cant)
-        //console.log(el.product.brand);
         const rowItem = document.createElement("tr");
         rowItem.innerHTML = `<td>${el.cant}</td>
         <td>${el.product.brand}</td>
@@ -355,6 +389,8 @@ const addProductCarrito = (arrFiltrado) =>{
 
 // Agregar productos a DB
 SyncLocalProductDB();
+showCatalog(productDB);
+
 
 newProductBtn.addEventListener("click", showNewProductContainer);
 cancelProductAdd.addEventListener("click", cancelNewProduct);
