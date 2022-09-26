@@ -282,18 +282,6 @@ const showCatalog = (arrProductDB) =>{
             <th>Precio</th>
             <th>IVA</th>
         </tr>`;
-    /* arrProductDB.forEach(el => {
-        const contentResultSearch = document.createElement("div");
-        contentResultSearch.innerHTML = `<p>Marca: ${el.brand}</p>
-        <p>Modelo: ${el.model}</p> 
-        <p>Descripción: ${el.desc}</p> 
-        <p>Stock: ${el.stock}</p>
-        <p>Precio: ${el.price}</p>
-        <p>IVA: ${el.iva}</p>
-        <input type="number" name="productQty" class="productQty">
-        <input type="button" value="Agregar al Carrito" class="addCarritoBtn">`;
-        resultSearch.appendChild(contentResultSearch);
-    }) */
     arrProductDB.forEach(el => {
         const contentResultSearch = document.createElement("tr");
         contentResultSearch.innerHTML = `<td>${el.stock}</td>
@@ -349,7 +337,7 @@ const updateCarritoTable = (arrCarrito) =>{
         <th>Precio</th>
         <th>IVA</th>
     </tr>`;
-        console.log(arrCarrito)
+        //console.log(arrCarrito)
         arrCarrito.forEach(el =>{
         const rowItem = document.createElement("tr");
         rowItem.innerHTML = `<td>${el.cant}</td>
@@ -358,9 +346,10 @@ const updateCarritoTable = (arrCarrito) =>{
         <td>${el.product.desc}</td>
         <td>${el.product.price}</td>
         <td>${el.product.iva}</td>
-        <td> <button>Eliminar</button></td>`;
+        <td><input type="button" value="Eliminar" class="delCarritoBtn"></td>`;
         carritoTable.appendChild(rowItem);
     })
+    delProductCarrito(carrito);
 }
 
 
@@ -368,6 +357,7 @@ const updateCarritoTable = (arrCarrito) =>{
 const carrito = []; 
 const productQty = document.getElementsByClassName("productQty");
 const addCarritoBtn = document.getElementsByClassName("addCarritoBtn");
+//const delCarritoBtn = document.getElementsByClassName("delCarritoBtn");
 
 const addProductCarrito = (arrFiltrado) =>{
     //const arrProductQty = [...productQty];
@@ -380,12 +370,27 @@ const addProductCarrito = (arrFiltrado) =>{
                 );
             carrito.push(productToCarrito);
             productQty[arrAddCarritoBtn.indexOf(btn)].value="";
-            console.log(carrito);
+            //console.log(carrito);
             updateCarritoTable(carrito);
+            //delProductCarrito(carrito);
         })
     } 
 };
 
+// Funcion para eliminar elementos del carrito
+const delProductCarrito = (arrCarrito) =>{
+    const delCarritoBtn = document.getElementsByClassName("delCarritoBtn");
+    const arrDelCarritoBtn = [...delCarritoBtn];
+    for (const btn of delCarritoBtn) {
+        //console.log(arrDelCarritoBtn);
+        btn.addEventListener("click",function(){
+           // console.log("eliminar btn");
+           // console.log(arrCarrito);
+            arrCarrito.splice(arrDelCarritoBtn.indexOf(btn),1);
+            updateCarritoTable(arrCarrito);
+        })
+    }
+}
 
 // Agregar productos a DB
 SyncLocalProductDB();
