@@ -36,6 +36,12 @@ const newClient = () =>{
     clientDB.push(newClient);
     console.log(clientDB);
     cancelNewClient();
+    Swal.fire({
+        title: 'Listo!',
+        text: 'Cliente agregado correctamente!',
+        icon: 'success',
+        confirmButtonText: 'Ok'
+      })
 }
 
 const cancelNewClient = () =>{
@@ -202,6 +208,19 @@ class ProductInCarrito{
 
 }
 
+//------ Productos para base de datos---------------
+const p1 = new Product("xiaomi", "note 10 pro", "128gb + 8gb", 10, 75000, 21);
+const p2 = new Product("xiaomi", "11t", "128gb + 8gb", 12, 95000, 21);
+const p3 = new Product("xiaomi", "note 10 pro", "256gb + 8gb", 16, 85000, 21);
+const p4 = new Product("samsung", "s22 ultra", "256gb + 12gb", 15, 120000, 21);
+const p5 = new Product("samsung", "s22", "128gb + 8gb", 9, 105000, 21);
+const p6 = new Product("motorola", "e40", "128gb + 8gb", 10, 65000, 21);
+const p7 = new Product("motorola", "g51", "128gb + 4gb", 11, 83000, 21);
+const p8 = new Product("apple", "iphone 13", "128gb + 8gb", 12, 250000, 21);
+const p9 = new Product("apple", "iphone 13 pro max", "128gb + 8gb", 8, 325000, 21);
+const p0 = new Product("apple", "iphone 14", "256gb + 8gb", 5, 350000, 21);
+//----------------------------------------------------
+
 const productBrand = document.getElementById("productBrand");
 const productModel = document.getElementById("productModel");
 const productDesc = document.getElementById("productDesc");
@@ -248,6 +267,12 @@ const newProduct = () =>{
     console.log(productDB);
     //Limpia los campos del formulario
     clearProductForm();
+    Swal.fire({
+        title: 'Listo!',
+        text: 'Producto agregado correctamente!',
+        icon: 'success',
+        confirmButtonText: 'Ok'
+      })
     showCatalog(productDB);
 
 }
@@ -280,6 +305,8 @@ const SyncLocalProductDB = () =>{
             productDB.push(productToSync);
             console.log(productDB);
         }
+    }else{
+        productDB.push(p1,p2,p3,p4,p5,p6,p7,p8,p9,p0);
     }
 }
 // Funcion mostrar productos en catalogo
@@ -293,6 +320,7 @@ const showCatalog = (arrProductDB) =>{
                 <th>Descripción</th>
                 <th>Precio</th>
                 <th>IVA</th>
+                <th>Cant</th>
             </tr>
         </thead>`;
     arrProductDB.forEach(el => {
@@ -447,3 +475,4 @@ function notaVentaIsChecked(){
     console.log("cliqueaste nota de venta");
 }
 // Fin modulo ingresar validez------------------
+

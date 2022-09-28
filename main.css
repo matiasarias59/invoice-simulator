@@ -43,6 +43,7 @@ h3{
     font-size: 2rem;
     color: white;
     text-shadow: 0.2rem 0.2rem 0.5rem black;
+    margin-top: 2rem;
 }
 
 #newClientContainer{
@@ -61,11 +62,11 @@ h3{
 
 thead{
     font-size: 2rem;
-    background-color: blue;
+    background-color: rgb(80, 104, 182);
 }
 
+
 td{
-    border: solid 1px black;
     text-align: center;
     font-size: 1.5rem;
 }
