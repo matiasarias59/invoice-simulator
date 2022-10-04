@@ -476,3 +476,22 @@ function notaVentaIsChecked(){
 }
 // Fin modulo ingresar validez------------------
 
+//Practica con fetch
+
+/* fetch("/json/productDB.json")
+.then(response => response.json())
+.then(datos => {
+    for (const obj of datos) {
+        console.log(obj);
+    }
+}) */
+
+const traerDatos = async (url) => {
+   const response = await fetch(url);
+   const data = await response.json();
+   for (const obj of data) {
+        console.log(obj);
+   }
+}
+
+traerDatos("/json/productDB.json");
