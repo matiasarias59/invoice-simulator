@@ -23,6 +23,7 @@ const newClientCity = document.getElementById("newClientCity");
 
 const clientDB = [];
 const clienteFinal = document.getElementById("clienteFinal");
+const newClientForm = document.getElementById("newClientForm");
 
 const newClient = () =>{
     let newClient = new Client(
@@ -46,12 +47,13 @@ const newClient = () =>{
 
 const cancelNewClient = () =>{
     newClientContainer.style.display="none"
-    newClientName.value = "";
+    /* newClientName.value = "";
     newClientId.value = "";
     newClientPhone.value = "";
     newClientMail.value = "";
     newClientAddress.value = "";
-    newClientCity.value = "";
+    newClientCity.value = ""; */
+    newClientForm.reset();
 }
 
 // Funcion para Traer Clientes desde Json
@@ -108,14 +110,32 @@ const selectClient = (clientDBFilter)=>{
             console.log("Clickeaste seleccionar");
             console.log(clientDBFilter);
             console.log(arrSelectedClientBtn)
-            selectedClient.innerHTML=`<p>Nombre: <span class="clientData">${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].nomb}</span></p>
+            selectedClient.innerHTML=/* `<p>Nombre: <span class="clientData">${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].nomb}</span></p>
             <p>Cuit / Dni: <span class="clientData">${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].dni}</span></p>
             <p>Telefono: <span class="clientData">${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].tel}</span></p>
             <p>E-mail: <span class="clientData">${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].mail}</span></p>
             <p>Dirección: <span class="clientData">${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].dir}</span></p>
-            <p>Localidad: <span class="clientData">${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].city}</span></p>`; 
+            <p>Localidad: <span class="clientData">${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].city}</span></p>`; */ 
+            `<thead>
+                <th>Nombre</th>
+                <th>Cuit/Dni</th>
+                <th>Telefono</th>
+                <th>E-mail</th>
+                <th>Direccion</th>
+                <th>Localidad</th>
+            </thead>
+            <tr>
+                <td>${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].nomb}</td>
+                <td>${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].dni}</td>
+                <td>${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].tel}</td>
+                <td>${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].mail}</td>
+                <td>${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].dir}</td>
+                <td>${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].city}</td>
+            </tr>`
             clientToFind.value="";
             resultClientSearch.innerHTML = "";
+
+
         }) 
     }
     
@@ -142,8 +162,18 @@ const UpdateClientSearch = () =>{
     if(clientDBFilter.length === 0){
         resultClientSearch.innerHTML = "<p>Lo sentimos no hay resultados</p>";
     }else{
+        resultClientSearch.innerHTML = `
+        <thead>
+            <th>Nombre</th>
+            <th>Cuit/Dni</th>
+            <th>Telefono</th>
+            <th>E-mail</th>
+            <th>Direccion</th>
+            <th>Localidad</th>
+        </thead>`
         clientDBFilter.forEach(el => {
-            const contentResultClientSearch = document.createElement("div");
+            /* const contentResultClientSearch = document.createElement("div");
+            contentResultClientSearch.classList.add("clientContainer")
             contentResultClientSearch.innerHTML = `<p>Nombre: <span class="clientData">${el.nomb}</span></p>
             <p>Cuit / Dni: <span class="clientData">${el.dni}</span></p>
             <p>Telefono: <span class="clientData">${el.tel}</span></p>
@@ -151,6 +181,16 @@ const UpdateClientSearch = () =>{
             <p>Dirección: <span class="clientData">${el.dir}</span></p>
             <p>Localidad: <span class="clientData">${el.city}</span></p>
             <button class="selectedClientBtn">Seleccionar</button>`;
+            resultClientSearch.appendChild(contentResultClientSearch); */
+            const contentResultClientSearch = document.createElement("tr");
+            //contentResultClientSearch.classList.add("clientContainer")
+            contentResultClientSearch.innerHTML = `<td>${el.nomb}</td>
+            <td>${el.dni}</td>
+            <td>${el.tel}</td>
+            <td>${el.mail}</td>
+            <td>${el.dir}</td>
+            <td>${el.city}</td>
+            <td><button class="selectedClientBtn">Seleccionar</button></td>`;
             resultClientSearch.appendChild(contentResultClientSearch);
         })
         selectClient(clientDBFilter);        
@@ -400,14 +440,14 @@ const carritoContainer = document.getElementById("carritoContainer");
 const carritoTable = document.getElementById("carritoTable");
 
 const updateCarritoTable = (arrCarrito) =>{
-        carritoTable.innerHTML = `<tr>
+        carritoTable.innerHTML = `<thead>
         <th>Cantidad</th>
         <th>Marca</th>
         <th>Modelo</th>
         <th>Descripción</th>
         <th>Precio</th>
         <th>IVA</th>
-    </tr>`;
+    </thead>`;
         //console.log(arrCarrito)
         arrCarrito.forEach(el =>{
         const rowItem = document.createElement("tr");

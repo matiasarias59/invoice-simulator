@@ -18,12 +18,20 @@
                 <label for="clientToFind">Buscar</label>
                 <input type="search" name="clientToFind" id="clientToFind" placeholder="Nombre...">
                 <input type="button" value="Nuevo" id="newClientBtn">
-                <div class="container" id="resultClientSearch">
-
+                <div class="container">
+                    <table id="resultClientSearch">
+                        <!-- <tr>
+                            <th>Nombre</th>
+                            <th>dni</th>
+                            <th>tel</th>
+                            <th>dir</th>
+                            <th>localidad</th>
+                        </tr> -->
+                    </table> 
                 </div>
             </div>
             <div class="container" id="newClientContainer">
-                <form action="">
+                <form id="newClientForm" action="">
                     <fieldset> 
                         <legend>Nuevo Cliente</legend>
                         <label for="newClientName">Nombre:</label>
@@ -43,8 +51,17 @@
                     </fieldset>
                 </form>
             </div>
-            <div class="container" id="selectedClient">
-             <!-- Datos cliente seleccionado -->                
+            <div class="container">
+             <!-- Datos cliente seleccionado --> 
+             <table id="selectedClient">
+                <!-- <tr>
+                    <th>Nombre</th>
+                    <th>dni</th>
+                    <th>tel</th>
+                    <th>dir</th>
+                    <th>localidad</th>
+                </tr> -->
+            </table>                
             </div>
         </section>
         <section id="tipoDeOrden">

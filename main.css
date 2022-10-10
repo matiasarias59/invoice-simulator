@@ -37,7 +37,7 @@ section{
 
 .container{
     width: 80vw;
-
+    margin-bottom: 2rem;
 }
 h3{
     font-size: 2rem;
@@ -54,7 +54,7 @@ h3{
     display: none;
 }
 
-#resultSearch, #carritoTable{
+#resultClientSearch, #selectedClient, #resultSearch, #carritoTable{
     margin: auto;
     background-color: white;
     width: 80vw;
@@ -82,3 +82,30 @@ td{
 .btnAgregar{
     width: 3rem;
 }
+
+/* #resultClientSearch{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+    
+}
+
+.clientContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    padding: 0.5rem;
+    background-color: rgb(242, 242, 242);
+    width: fit-content;
+    
+}
+.clientContainer p{
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.clientData{
+    margin-right: 1rem;
+    font-weight: 400;
+} */
