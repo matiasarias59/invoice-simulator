@@ -1,5 +1,15 @@
 //Script para trabajar con el dom 
 
+//------ Expresiones para validar campos---
+const expresiones = {
+    usuario: /^[a-zA-ZÀ-ÿ\s0-9\_\-]+$/, // Letras, numeros, guion y guion_bajo
+	//usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
+	//nombre: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
+	//password: /^.{4,12}$/, // 4 a 12 digitos.
+	correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+	telefono: /^\d+$/, // Numeros. 
+}
+
 //------ SECCION CLIENTES -------
 
 //Definicion Clase Cliente
@@ -25,6 +35,17 @@ const clientDB = [];
 const clienteFinal = document.getElementById("clienteFinal");
 const newClientForm = document.getElementById("newClientForm");
 
+// Funcion validar Inputs
+
+const validateInput = (expresion, input) => {
+    if (expresiones[expresion].test(input.value)){
+        console.log("cesta ok");
+        input.classList.add("correcto")
+    }
+}
+
+
+// Funcion nuevo Cliente
 const newClient = () =>{
     let newClient = new Client(
         newClientName.value,
@@ -35,7 +56,7 @@ const newClient = () =>{
         newClientCity.value,
     );
     clientDB.push(newClient);
-    console.log(clientDB);
+    //console.log(clientDB);
     cancelNewClient();
     Swal.fire({
         title: 'Listo!',
@@ -47,12 +68,6 @@ const newClient = () =>{
 
 const cancelNewClient = () =>{
     newClientContainer.style.display="none"
-    /* newClientName.value = "";
-    newClientId.value = "";
-    newClientPhone.value = "";
-    newClientMail.value = "";
-    newClientAddress.value = "";
-    newClientCity.value = ""; */
     newClientForm.reset();
 }
 
@@ -61,7 +76,7 @@ const traerClientesJson = async (url) => {
     const response = await fetch(url);
     const data = await response.json();
     for (const obj of data) {
-        console.log(obj);
+       //console.log(obj);
         clientDB.push(obj);
     }
  }
@@ -75,10 +90,10 @@ const UpdateLocalClientDB = () =>{
 // Funcion para sincronizar el localStorage de Clientes
 const SyncLocalClientDB = () =>{
     const clientDBSync = (JSON.parse(localStorage.getItem("clientDB")));
-    console.log(clientDBSync);
+    //console.log(clientDBSync);
     if(clientDBSync!=null){
         for (const client of clientDBSync){
-            console.log(client);
+            //console.log(client);
             const clientToSync = new Client (
                 client.nomb,
                 client.dni,
@@ -88,7 +103,7 @@ const SyncLocalClientDB = () =>{
                 client.city
             )
             clientDB.push(clientToSync);
-            console.log(clientDB);
+            //console.log(clientDB);
         }
     }
 }
@@ -96,7 +111,7 @@ const SyncLocalClientDB = () =>{
 // Funcion para mostrar pestaña de agregar cliente
 const newClientContainer = document.getElementById("newClientContainer");
 const showNewClientContainer = () =>{
-    newClientContainer.style.display="block"
+    newClientContainer.style.display="flex"
 }
 //Funcion para seleccionar el cliente en el resultado de busqueda
 const selectedClient = document.getElementById("selectedClient"); //div donde se mostrara el cliente seleccionado
@@ -107,15 +122,10 @@ const selectClient = (clientDBFilter)=>{
     const arrSelectedClientBtn = [...selectedClientBtn];
     for (const btn of selectedClientBtn) {
         btn.addEventListener("click",function(){
-            console.log("Clickeaste seleccionar");
-            console.log(clientDBFilter);
-            console.log(arrSelectedClientBtn)
-            selectedClient.innerHTML=/* `<p>Nombre: <span class="clientData">${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].nomb}</span></p>
-            <p>Cuit / Dni: <span class="clientData">${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].dni}</span></p>
-            <p>Telefono: <span class="clientData">${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].tel}</span></p>
-            <p>E-mail: <span class="clientData">${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].mail}</span></p>
-            <p>Dirección: <span class="clientData">${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].dir}</span></p>
-            <p>Localidad: <span class="clientData">${clientDBFilter[arrSelectedClientBtn.indexOf(btn)].city}</span></p>`; */ 
+            //console.log("Clickeaste seleccionar");
+            //console.log(clientDBFilter);
+            //console.log(arrSelectedClientBtn)
+            selectedClient.innerHTML=
             `<thead>
                 <th>Nombre</th>
                 <th>Cuit/Dni</th>
@@ -158,7 +168,7 @@ const UpdateClientSearch = () =>{
     cancelNewClient();
     resultClientSearch.innerHTML = "";
     const clientDBFilter = clientDB.filter(clientSearch);
-    console.log(clientDBFilter);
+    //console.log(clientDBFilter);
     if(clientDBFilter.length === 0){
         resultClientSearch.innerHTML = "<p>Lo sentimos no hay resultados</p>";
     }else{
@@ -172,18 +182,7 @@ const UpdateClientSearch = () =>{
             <th>Localidad</th>
         </thead>`
         clientDBFilter.forEach(el => {
-            /* const contentResultClientSearch = document.createElement("div");
-            contentResultClientSearch.classList.add("clientContainer")
-            contentResultClientSearch.innerHTML = `<p>Nombre: <span class="clientData">${el.nomb}</span></p>
-            <p>Cuit / Dni: <span class="clientData">${el.dni}</span></p>
-            <p>Telefono: <span class="clientData">${el.tel}</span></p>
-            <p>E-mail: <span class="clientData">${el.mail}</span></p>
-            <p>Dirección: <span class="clientData">${el.dir}</span></p>
-            <p>Localidad: <span class="clientData">${el.city}</span></p>
-            <button class="selectedClientBtn">Seleccionar</button>`;
-            resultClientSearch.appendChild(contentResultClientSearch); */
             const contentResultClientSearch = document.createElement("tr");
-            //contentResultClientSearch.classList.add("clientContainer")
             contentResultClientSearch.innerHTML = `<td>${el.nomb}</td>
             <td>${el.dni}</td>
             <td>${el.tel}</td>
@@ -230,15 +229,6 @@ class Product{
         this.price = price;
         this.iva = iva;
     }
-    /* calcularIva(){
-        return this.price * this.iva / 100;
-    }
-    calcularIvaTotal(){
-        return this.cant * this.calcularIva();
-    }
-    calcularTotal(){
-        return this.price * this.cant;
-    } */
 }
 
 // Definicion Clase Carrito
@@ -259,19 +249,6 @@ class ProductInCarrito{
 
 }
 
-//------ Productos para base de datos---------------
-/* 
-const p1 = new Product("xiaomi", "note 10 pro", "128gb + 8gb", 10, 75000, 21);
-const p2 = new Product("xiaomi", "11t", "128gb + 8gb", 12, 95000, 21);
-const p3 = new Product("xiaomi", "note 10 pro", "256gb + 8gb", 16, 85000, 21);
-const p4 = new Product("samsung", "s22 ultra", "256gb + 12gb", 15, 120000, 21);
-const p5 = new Product("samsung", "s22", "128gb + 8gb", 9, 105000, 21);
-const p6 = new Product("motorola", "e40", "128gb + 8gb", 10, 65000, 21);
-const p7 = new Product("motorola", "g51", "128gb + 4gb", 11, 83000, 21);
-const p8 = new Product("apple", "iphone 13", "128gb + 8gb", 12, 250000, 21);
-const p9 = new Product("apple", "iphone 13 pro max", "128gb + 8gb", 8, 325000, 21);
-const p0 = new Product("apple", "iphone 14", "256gb + 8gb", 5, 350000, 21);
- */
 //----------------------------------------------------
 
 const productBrand = document.getElementById("productBrand");
@@ -317,7 +294,7 @@ const newProduct = () =>{
         productIva.value
     );
     productDB.push(newProduct);
-    console.log(productDB);
+    //console.log(productDB);
     //Limpia los campos del formulario
     clearProductForm();
     Swal.fire({
@@ -370,7 +347,7 @@ const traerProductosJson = async (url) => {
     const response = await fetch(url);
     const data = await response.json();
     for (const obj of data) {
-        console.log(obj);
+        //console.log(obj);
         productDB.push(obj);
     }
     showCatalog(productDB);
@@ -385,10 +362,10 @@ const UpdateLocalProductDB = () =>{
 // Funcion para sincronizar el localStorage de Productos
 const SyncLocalProductDB = () =>{
     const productDBSync = (JSON.parse(localStorage.getItem("productDB")));
-    console.log(productDBSync);
+    //console.log(productDBSync);
     if(productDBSync!=null){
         for (const product of productDBSync){
-            console.log(product);
+            //console.log(product);
             const productToSync = new Product (
                 product.brand,
                 product.model,
@@ -421,7 +398,7 @@ const UpdateProductSearch = () =>{
     cancelNewProduct();
     //resultSearch.innerHTML = "";
    const productDBFilter = productDB.filter(productSearch);
-    console.log(productDBFilter);
+    //console.log(productDBFilter);
     if(productDBFilter.length === 0){
         resultSearch.innerHTML = "<p>Lo sentimos no hay resultados</p>";
     }else{
@@ -483,9 +460,9 @@ const addProductCarrito = (arrFiltrado) =>{
             productQty[arrAddCarritoBtn.indexOf(btn)].value="";
             //console.log(carrito);
             updateCarritoTable(carrito);
-            console.log(carrito[0].calcularIva())
-            console.log(carrito[0].calcularIvaTotal())
-            console.log(carrito[0].calcularTotal())
+            //console.log(carrito[0].calcularIva())
+            //console.log(carrito[0].calcularIvaTotal())
+            //console.log(carrito[0].calcularTotal())
             //delProductCarrito(carrito);
         })
     } 
@@ -534,7 +511,7 @@ const containerValidez = document.getElementById("validez__presupuesto");
 presupuesto.addEventListener("click", presupuestoIsChecked);
 function presupuestoIsChecked(){
     containerValidez.style.display = "block";
-    console.log("cliqueaste presupuesto");
+    //console.log("cliqueaste presupuesto");
 }
 
 notaVenta.addEventListener("click",notaVentaIsChecked);
@@ -542,17 +519,7 @@ notaVenta.addEventListener("click",notaVentaIsChecked);
 
 function notaVentaIsChecked(){
     containerValidez.style.display = "none";
-    console.log("cliqueaste nota de venta");
+    //console.log("cliqueaste nota de venta");
 }
 // Fin modulo ingresar validez------------------
-
-//Practica con fetch
-
-/* fetch("/json/productDB.json")
-.then(response => response.json())
-.then(datos => {
-    for (const obj of datos) {
-        console.log(obj);
-    }
-}) */
 

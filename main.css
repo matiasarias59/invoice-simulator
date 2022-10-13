@@ -48,6 +48,20 @@ h3{
 
 #newClientContainer{
     display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+#newClientForm{
+    display: flex;
+    align-items: center;
+}
+
+#newClientForm input{
+    /* border: 2px solid red; */
+
 }
 
 #newProductContainer{
@@ -81,6 +95,11 @@ td{
 
 .btnAgregar{
     width: 3rem;
+}
+
+.correcto{
+    background-color: blue;
+    color: red;
 }
 
 /* #resultClientSearch{
