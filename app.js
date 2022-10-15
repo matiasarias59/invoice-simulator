@@ -312,6 +312,7 @@ const productDB = []//Array DB para almacenar productos. posteriormente se manda
 const newProductBtn = document.getElementById("newProductBtn");
 const cancelProductAdd = document.getElementById("cancelProductAdd");
 const newProductContainer = document.getElementById("newProductContainer");
+const newProductForm = document.getElementById("newProductForm");
 
 const searchProduct = document.getElementById("searchProduct"); //input de busqueda
 const resultSearch = document.getElementById("resultSearch");//section donde se agregaran los productos a mostrar
@@ -319,17 +320,18 @@ const resultSearch = document.getElementById("resultSearch");//section donde se 
 
 //Funcion para mostrar container Nuevo Producto
 const showNewProductContainer = () =>{
-    newProductContainer.style.display="block"
+    newProductContainer.style.display="block";
 }
 
 //Funcion para limpiar campos de input de productos
 const clearProductForm = () =>{
-    productBrand.value = "";
+    newProductForm.reset();
+    /* productBrand.value = "";
     productModel.value = "";
     productDesc.value = "";
     productStock.value ="";
     productPrice.value ="";
-    productIva.value ="";
+    productIva.value =""; */
 }
 
 //Funcion para agregar productos
@@ -399,7 +401,7 @@ const traerProductosJson = async (url) => {
         //console.log(obj);
         productDB.push(obj);
     }
-    showCatalog(productDB);
+    //showCatalog(productDB);
  }
 
 
@@ -455,10 +457,11 @@ const UpdateProductSearch = () =>{
         //addProductCarrito(productDBFilter);
         
     };
-    searchProduct.value==="" && showCatalog(productDBFilter);
-    /* if(searchProduct.value===""){
+
+    //searchProduct.value==="" && showCatalog(productDBFilter);
+    if(searchProduct.value===""){
         resultSearch.innerHTML = "";
-    }; */ 
+    };
 };
 
 //Funcion para mostrar elementos agregados al carrito
@@ -534,7 +537,7 @@ const delProductCarrito = (arrCarrito) =>{
 
 // Agregar productos a DB
 SyncLocalProductDB();
-showCatalog(productDB);
+//showCatalog(productDB);
 
 
 newProductBtn.addEventListener("click", showNewProductContainer);
