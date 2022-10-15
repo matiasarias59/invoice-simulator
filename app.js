@@ -2,12 +2,14 @@
 
 //------ Expresiones para validar campos---
 const expresiones = {
-    usuario: /^[a-zA-ZÀ-ÿ\s0-9\_\-]+$/, // Letras, numeros, guion y guion_bajo
+    nomb: /^[\S][a-zA-ZÀ-ÿ\s0-9\_\-\.]+$/, // Letras, numeros, guion y guion_bajo
 	//usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
 	//nombre: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
 	//password: /^.{4,12}$/, // 4 a 12 digitos.
-	correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-	telefono: /^\d+$/, // Numeros. 
+	mail: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+	numb: /^\d+$/, // Numeros. 
+    decimalNumb:/^[\d]+\.?[\d]*$/
+    
 }
 
 //------ SECCION CLIENTES -------
@@ -36,34 +38,79 @@ const clienteFinal = document.getElementById("clienteFinal");
 const newClientForm = document.getElementById("newClientForm");
 
 // Funcion validar Inputs
+const inputsFlags = {
+    newClientName: false,
+    newClientId: false,
+    newClientPhone: false,
+    newClientMail: false, 
+    newClientAddress: false,
+    newClientCity: false, 
+}
 
-const validateInput = (expresion, input) => {
+const validateInput = (expresion, input, flag) => {
     if (expresiones[expresion].test(input.value)){
-        console.log("cesta ok");
-        input.classList.add("correcto")
+        console.log("esta ok");
+        input.classList.add("correct_data");
+        input.classList.remove("fail_data");
+        inputsFlags[flag]= true;
+    }else{
+        input.classList.add("fail_data");
+        input.classList.remove("correct_data");
+        inputsFlags[flag] = false;
     }
 }
+
+newClientName.addEventListener("keyup", ()=>{validateInput("nomb",newClientName, "newClientName")});
+newClientId.addEventListener("keyup", ()=>{validateInput("numb",newClientId, "newClientId")});
+newClientPhone.addEventListener("keyup", ()=>{validateInput("numb",newClientPhone, "newClientPhone")});
+newClientMail.addEventListener("keyup", ()=>{validateInput("mail",newClientMail, "newClientMail")});
+newClientAddress.addEventListener("keyup", ()=>{validateInput("nomb",newClientAddress, "newClientAddress")});
+newClientCity.addEventListener("keyup", ()=>{validateInput("nomb",newClientCity, "newClientCity")});
+
+
 
 
 // Funcion nuevo Cliente
 const newClient = () =>{
-    let newClient = new Client(
-        newClientName.value,
-        newClientId.value,
-        newClientPhone.value,
-        newClientMail.value,
-        newClientAddress.value,
-        newClientCity.value,
-    );
-    clientDB.push(newClient);
-    //console.log(clientDB);
-    cancelNewClient();
-    Swal.fire({
-        title: 'Listo!',
-        text: 'Cliente agregado correctamente!',
-        icon: 'success',
-        confirmButtonText: 'Ok'
-      })
+  //-*------------ 
+    let formFlag = false 
+    for (const flag in inputsFlags) {
+        if(!inputsFlags[flag]){
+            //console.log(flag);
+            Swal.fire({
+                title: 'Mal!',
+                text: 'Por favor completa los campos correctamente!',
+                icon: 'error',
+                confirmButtonText: 'Ok'
+              })
+            formFlag = false;
+            break;
+        }else{
+            formFlag = true
+        }
+    }
+    if(formFlag) {
+        let newClient = new Client(
+            newClientName.value,
+            newClientId.value,
+            newClientPhone.value,
+            newClientMail.value,
+            newClientAddress.value,
+            newClientCity.value,
+        );
+        clientDB.push(newClient);
+        //console.log(clientDB);
+        cancelNewClient();
+        Swal.fire({
+            title: 'Listo!',
+            text: 'Cliente agregado correctamente!',
+            icon: 'success',
+            confirmButtonText: 'Ok'
+          })
+
+    }
+   //------------------- 
+    
 }
 
 const cancelNewClient = () =>{
@@ -80,7 +127,7 @@ const traerClientesJson = async (url) => {
         clientDB.push(obj);
     }
  }
- traerClientesJson("./json/clienDB.json");
+ //traerClientesJson("./json/clienDB.json");
 
 // Funcion para actulizar el localStorage de clientes
 const UpdateLocalClientDB = () =>{
@@ -105,6 +152,8 @@ const SyncLocalClientDB = () =>{
             clientDB.push(clientToSync);
             //console.log(clientDB);
         }
+    }else{
+        traerClientesJson("./json/clienDB.json");
     }
 }
 
@@ -151,7 +200,7 @@ const selectClient = (clientDBFilter)=>{
     
 };
 
-// ------Busqueda y Filtrado de Productos------------------------------
+// ------Busqueda y Filtrado de Clientes------------------------------
 
 const clientToFind = document.getElementById("clientToFind"); //input de busqueda
 
@@ -162,7 +211,7 @@ const clientSearch = (element) =>{
 
 const resultClientSearch = document.getElementById("resultClientSearch");//section donde se agregaran los clientes resultados de busqueda
 
-//Filtra la DB de productos y los muestra
+//Filtra la DB de clientes y los muestra
 
 const UpdateClientSearch = () =>{
     cancelNewClient();

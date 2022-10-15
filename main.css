@@ -97,11 +97,15 @@ td{
     width: 3rem;
 }
 
-.correcto{
-    background-color: blue;
-    color: red;
+.correct_data{
+    background-color: rgba(105, 255, 63, 0.872);
+    color: rgb(41, 41, 41);
 }
 
+.fail_data{
+    background-color: rgba(255, 0, 0, 0.479);
+    color: rgb(117, 17, 17);
+}
 /* #resultClientSearch{
     display: flex;
     flex-direction: column;
