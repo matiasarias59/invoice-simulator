@@ -2,15 +2,25 @@
 
 //------ Expresiones para validar campos---
 const expresiones = {
-    nomb: /^[\S][a-zA-ZÀ-ÿ\s0-9\_\-\.]+$/, // Letras, numeros, guion y guion_bajo
-	//usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
-	//nombre: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
-	//password: /^.{4,12}$/, // 4 a 12 digitos.
+    nomb: /^[\S][a-zA-ZÀ-ÿ\s0-9\_\-\.]+$/,
 	mail: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-	numb: /^\d+$/, // Numeros. 
+	numb: /^\d+$/,
     decimalNumb:/^[\d]+\.?[\d]*$/
-    
 }
+
+const validateInput = (expresion, flagObj, input, flag) => {
+    if (expresiones[expresion].test(input.value)){
+        console.log("esta ok");
+        input.classList.add("correct_data");
+        input.classList.remove("fail_data");
+        flagObj[flag]= true;
+    }else{
+        input.classList.add("fail_data");
+        input.classList.remove("correct_data");
+        flagObj[flag] = false;
+    }
+}
+
 
 //------ SECCION CLIENTES -------
 
@@ -37,8 +47,8 @@ const clientDB = [];
 const clienteFinal = document.getElementById("clienteFinal");
 const newClientForm = document.getElementById("newClientForm");
 
-// Funcion validar Inputs
-const inputsFlags = {
+// Validar Inputs Cliente
+const clientFlags = {
     newClientName: false,
     newClientId: false,
     newClientPhone: false,
@@ -47,35 +57,63 @@ const inputsFlags = {
     newClientCity: false, 
 }
 
-const validateInput = (expresion, input, flag) => {
-    if (expresiones[expresion].test(input.value)){
-        console.log("esta ok");
-        input.classList.add("correct_data");
-        input.classList.remove("fail_data");
-        inputsFlags[flag]= true;
-    }else{
-        input.classList.add("fail_data");
-        input.classList.remove("correct_data");
-        inputsFlags[flag] = false;
+newClientName.addEventListener("keyup", ()=>{validateInput("nomb", clientFlags, newClientName, "newClientName")});
+newClientId.addEventListener("keyup", ()=>{validateInput("numb", clientFlags, newClientId, "newClientId")});
+newClientPhone.addEventListener("keyup", ()=>{validateInput("numb", clientFlags, newClientPhone, "newClientPhone")});
+newClientMail.addEventListener("keyup", ()=>{validateInput("mail", clientFlags, newClientMail, "newClientMail")});
+newClientAddress.addEventListener("keyup", ()=>{validateInput("nomb", clientFlags, newClientAddress, "newClientAddress")});
+newClientCity.addEventListener("keyup", ()=>{validateInput("nomb", clientFlags, newClientCity, "newClientCity")});
+
+const validateForm = (objFlag, actionFunction) =>{
+    let formFlag = false 
+    for (const flag in objFlag) {
+        if(!objFlag[flag]){
+            //console.log(flag);
+            Swal.fire({
+                title: 'Mal!',
+                text: 'Por favor completa los campos correctamente!',
+                icon: 'error',
+                confirmButtonText: 'Ok'
+              })
+            formFlag = false;
+            break;
+        }else{
+            formFlag = true;
+        }
+    }
+    if(formFlag) {
+        actionFunction(); 
     }
 }
 
-newClientName.addEventListener("keyup", ()=>{validateInput("nomb",newClientName, "newClientName")});
-newClientId.addEventListener("keyup", ()=>{validateInput("numb",newClientId, "newClientId")});
-newClientPhone.addEventListener("keyup", ()=>{validateInput("numb",newClientPhone, "newClientPhone")});
-newClientMail.addEventListener("keyup", ()=>{validateInput("mail",newClientMail, "newClientMail")});
-newClientAddress.addEventListener("keyup", ()=>{validateInput("nomb",newClientAddress, "newClientAddress")});
-newClientCity.addEventListener("keyup", ()=>{validateInput("nomb",newClientCity, "newClientCity")});
+// Funcion agregar nuevo cliente a db
 
-
-
+const addClientToDB = () =>{
+    let newClient = new Client(
+        newClientName.value,
+        newClientId.value,
+        newClientPhone.value,
+        newClientMail.value,
+        newClientAddress.value,
+        newClientCity.value,
+    );
+    clientDB.push(newClient);
+    //console.log(clientDB);
+    cancelNewClient();
+    Swal.fire({
+        title: 'Listo!',
+        text: 'Cliente agregado correctamente!',
+        icon: 'success',
+        confirmButtonText: 'Ok'
+      })
+}
 
 // Funcion nuevo Cliente
 const newClient = () =>{
   //-*------------ 
-    let formFlag = false 
-    for (const flag in inputsFlags) {
-        if(!inputsFlags[flag]){
+   /*  let formFlag = false 
+    for (const flag in clientFlags) {
+        if(!clientFlags[flag]){
             //console.log(flag);
             Swal.fire({
                 title: 'Mal!',
@@ -108,8 +146,9 @@ const newClient = () =>{
             confirmButtonText: 'Ok'
           })
 
-    }
-   //------------------- 
+    } */
+   //-------------------
+   validateForm(clientFlags,addClientToDB); 
     
 }
 
@@ -334,8 +373,25 @@ const clearProductForm = () =>{
     productIva.value =""; */
 }
 
+// Validar Inputs Producto
+const productFlags = {
+    productBrand: false,
+    productModel: false,
+    productDesc: false,
+    productStock: false,
+    productPrice: false,
+    productIva: false,
+}
+
+productBrand.addEventListener("keyup", ()=>{validateInput("nomb", productFlags, productBrand, "productBrand")});
+productModel.addEventListener("keyup", ()=>{validateInput("nomb", productFlags, productModel, "productModel")});
+productDesc.addEventListener("keyup", ()=>{validateInput("nomb", productFlags, productDesc, "productDesc")});
+productStock.addEventListener("keyup", ()=>{validateInput("numb", productFlags, productStock, "productStock")});
+productPrice.addEventListener("keyup", ()=>{validateInput("decimalNumb", productFlags, productPrice, "productPrice")});
+productIva.addEventListener("keyup", ()=>{validateInput("decimalNumb", productFlags, productIva, "productIva")});
+
 //Funcion para agregar productos
-const newProduct = () =>{
+const addProductToDB = () =>{
     let newProduct = new Product(
         productBrand.value,
         productModel.value,
@@ -354,8 +410,12 @@ const newProduct = () =>{
         icon: 'success',
         confirmButtonText: 'Ok'
       })
-    showCatalog(productDB);
+  //  showCatalog(productDB);
 
+}
+
+const newProduct = () =>{
+    validateForm(productFlags,addProductToDB); 
 }
 
 const cancelNewProduct = () =>{
@@ -426,7 +486,7 @@ const SyncLocalProductDB = () =>{
                 product.iva
             )
             productDB.push(productToSync);
-            console.log(productDB);
+           // console.log(productDB);
         }
     }else{
         traerProductosJson("/json/productDB.json");
