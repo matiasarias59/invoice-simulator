@@ -21,6 +21,38 @@ const validateInput = (expresion, flagObj, input, flag) => {
     }
 }
 
+const validateForm = (objFlag, actionFunction) =>{
+    let formFlag = false 
+    for (const flag in objFlag) {
+        if(!objFlag[flag]){
+            //console.log(flag);
+            Swal.fire({
+                title: 'Mal!',
+                text: 'Por favor completa los campos correctamente!',
+                icon: 'error',
+                confirmButtonText: 'Ok'
+              })
+            formFlag = false;
+            break;
+        }else{
+            formFlag = true;
+        }
+    }
+    if(formFlag) {
+        actionFunction(); 
+        for (const flag in objFlag) {
+            objFlag[flag] = false;
+        }
+    }
+}
+
+const removeInputsClassList = (classList) => {
+    const inputs = document.getElementsByClassName(classList);
+    const inputsArr = [...inputs];
+    inputsArr.forEach((e)=>{
+        inputs[e.id].classList.remove(classList);
+    })
+}
 
 //------ SECCION CLIENTES -------
 
@@ -64,27 +96,14 @@ newClientMail.addEventListener("keyup", ()=>{validateInput("mail", clientFlags, 
 newClientAddress.addEventListener("keyup", ()=>{validateInput("nomb", clientFlags, newClientAddress, "newClientAddress")});
 newClientCity.addEventListener("keyup", ()=>{validateInput("nomb", clientFlags, newClientCity, "newClientCity")});
 
-const validateForm = (objFlag, actionFunction) =>{
-    let formFlag = false 
-    for (const flag in objFlag) {
-        if(!objFlag[flag]){
-            //console.log(flag);
-            Swal.fire({
-                title: 'Mal!',
-                text: 'Por favor completa los campos correctamente!',
-                icon: 'error',
-                confirmButtonText: 'Ok'
-              })
-            formFlag = false;
-            break;
-        }else{
-            formFlag = true;
-        }
-    }
-    if(formFlag) {
-        actionFunction(); 
-    }
-}
+/* newClientName.addEventListener("blur", ()=>{validateInput("nomb", clientFlags, newClientName, "newClientName")});
+newClientId.addEventListener("blur", ()=>{validateInput("numb", clientFlags, newClientId, "newClientId")});
+newClientPhone.addEventListener("blur", ()=>{validateInput("numb", clientFlags, newClientPhone, "newClientPhone")});
+newClientMail.addEventListener("blur", ()=>{validateInput("mail", clientFlags, newClientMail, "newClientMail")});
+newClientAddress.addEventListener("blur", ()=>{validateInput("nomb", clientFlags, newClientAddress, "newClientAddress")});
+newClientCity.addEventListener("blur", ()=>{validateInput("nomb", clientFlags, newClientCity, "newClientCity")}); */
+
+
 
 // Funcion agregar nuevo cliente a db
 
@@ -155,6 +174,8 @@ const newClient = () =>{
 const cancelNewClient = () =>{
     newClientContainer.style.display="none"
     newClientForm.reset();
+    removeInputsClassList("correct_data");
+    removeInputsClassList("fail_data");
 }
 
 // Funcion para Traer Clientes desde Json
@@ -309,7 +330,8 @@ clientToFind.addEventListener("search",UpdateClientSearch);
 
 // Definicion Clase Producto
 class Product{
-    constructor(brand, model, desc, stock, price, iva){
+    constructor(id, brand, model, desc, stock, price, iva){
+        this.id = id;
         this.brand = brand;
         this.model = model;
         this.desc = desc;
@@ -365,6 +387,8 @@ const showNewProductContainer = () =>{
 //Funcion para limpiar campos de input de productos
 const clearProductForm = () =>{
     newProductForm.reset();
+    removeInputsClassList("correct_data");
+    removeInputsClassList("fail_data");
     /* productBrand.value = "";
     productModel.value = "";
     productDesc.value = "";
@@ -393,6 +417,7 @@ productIva.addEventListener("keyup", ()=>{validateInput("decimalNumb", productFl
 //Funcion para agregar productos
 const addProductToDB = () =>{
     let newProduct = new Product(
+        productDB.length,
         productBrand.value,
         productModel.value,
         productDesc.value,
@@ -478,6 +503,7 @@ const SyncLocalProductDB = () =>{
         for (const product of productDBSync){
             //console.log(product);
             const productToSync = new Product (
+                productDB.length,
                 product.brand,
                 product.model,
                 product.desc,
@@ -564,18 +590,28 @@ const addProductCarrito = (arrFiltrado) =>{
     const arrAddCarritoBtn = [...addCarritoBtn];
     for (const btn of addCarritoBtn) {
         btn.addEventListener("click", function (){
-            const productToCarrito = new ProductInCarrito (
-                productQty[arrAddCarritoBtn.indexOf(btn)].value,
-                arrFiltrado[arrAddCarritoBtn.indexOf(btn)]
-                );
-            carrito.push(productToCarrito);
-            productQty[arrAddCarritoBtn.indexOf(btn)].value="";
-            //console.log(carrito);
-            updateCarritoTable(carrito);
-            //console.log(carrito[0].calcularIva())
-            //console.log(carrito[0].calcularIvaTotal())
-            //console.log(carrito[0].calcularTotal())
-            //delProductCarrito(carrito);
+            if(productQty[arrAddCarritoBtn.indexOf(btn)].value > 0){
+                const productToCarrito = new ProductInCarrito (
+                    productQty[arrAddCarritoBtn.indexOf(btn)].value,
+                    arrFiltrado[arrAddCarritoBtn.indexOf(btn)]
+                    );
+                carrito.push(productToCarrito);
+                productQty[arrAddCarritoBtn.indexOf(btn)].value="";
+                //console.log(carrito);
+                updateCarritoTable(carrito);
+                //console.log(carrito[0].calcularIva())
+                //console.log(carrito[0].calcularIvaTotal())
+                //console.log(carrito[0].calcularTotal())
+                //delProductCarrito(carrito);
+            }else{
+                Swal.fire({
+                    title: 'Mal!',
+                    text: 'La cantidad debe ser mayor a 0',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                  })
+            }
+            
         })
     } 
 };
