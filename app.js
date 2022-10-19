@@ -2,7 +2,8 @@
 
 //------ Expresiones para validar campos---
 const expresiones = {
-    nomb: /^[\S][a-zA-ZÀ-ÿ\s0-9\_\-\.]+$/,
+    nomb: /^[\S][a-zA-ZÀ-ÿ\s0-9\_\-\.]*$/,
+    txt: /^[\S]+.*$/,
 	mail: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
 	numb: /^\d+$/,
     decimalNumb:/^[\d]+\.?[\d]*$/
@@ -408,8 +409,8 @@ const productFlags = {
 }
 
 productBrand.addEventListener("keyup", ()=>{validateInput("nomb", productFlags, productBrand, "productBrand")});
-productModel.addEventListener("keyup", ()=>{validateInput("nomb", productFlags, productModel, "productModel")});
-productDesc.addEventListener("keyup", ()=>{validateInput("nomb", productFlags, productDesc, "productDesc")});
+productModel.addEventListener("keyup", ()=>{validateInput("txt", productFlags, productModel, "productModel")});
+productDesc.addEventListener("keyup", ()=>{validateInput("txt", productFlags, productDesc, "productDesc")});
 productStock.addEventListener("keyup", ()=>{validateInput("numb", productFlags, productStock, "productStock")});
 productPrice.addEventListener("keyup", ()=>{validateInput("decimalNumb", productFlags, productPrice, "productPrice")});
 productIva.addEventListener("keyup", ()=>{validateInput("decimalNumb", productFlags, productIva, "productIva")});
@@ -471,7 +472,7 @@ const showCatalog = (arrProductDB) =>{
         <td>${el.desc}</td>
         <td>${el.price}</td>
         <td>${el.iva}</td>
-        <td class="inputCant"><input type="number" name="productQty" class="productQty"></td>
+        <td class="inputCant" id="${el.id}"><input type="number" name="productQty" class="productQty"></td>
         <td class="btnAgregar"><input type="button" value="Agregar al Carrito" class="addCarritoBtn"></td>`;
         resultSearch.appendChild(contentResultSearch);
     })
@@ -515,7 +516,7 @@ const SyncLocalProductDB = () =>{
            // console.log(productDB);
         }
     }else{
-        traerProductosJson("/json/productDB.json");
+        traerProductosJson("./json/productDB.json");
        // showCatalog(productDB);
         //productDB.push(p1,p2,p3,p4,p5,p6,p7,p8,p9,p0);
     }
@@ -578,6 +579,15 @@ const updateCarritoTable = (arrCarrito) =>{
     delProductCarrito(carrito);
 }
 
+// Funcion para modificar stock de producto
+
+const updateStock = (id, cant, action="remove") => {
+    console.log(id);
+    console.log(cant);
+    action == "add"? productDB[id].stock += cant : productDB[id].stock -= cant ;
+    console.log(productDB[id])
+    console.log(productDB[id].stock)
+}
 
 // Funcion para agregar elementos al carrito
 const carrito = []; 
@@ -589,20 +599,30 @@ const addProductCarrito = (arrFiltrado) =>{
     //const arrProductQty = [...productQty];
     const arrAddCarritoBtn = [...addCarritoBtn];
     for (const btn of addCarritoBtn) {
+
         btn.addEventListener("click", function (){
-            if(productQty[arrAddCarritoBtn.indexOf(btn)].value > 0){
-                const productToCarrito = new ProductInCarrito (
-                    productQty[arrAddCarritoBtn.indexOf(btn)].value,
-                    arrFiltrado[arrAddCarritoBtn.indexOf(btn)]
-                    );
-                carrito.push(productToCarrito);
-                productQty[arrAddCarritoBtn.indexOf(btn)].value="";
-                //console.log(carrito);
-                updateCarritoTable(carrito);
-                //console.log(carrito[0].calcularIva())
-                //console.log(carrito[0].calcularIvaTotal())
-                //console.log(carrito[0].calcularTotal())
-                //delProductCarrito(carrito);
+            let itemCant = productQty[arrAddCarritoBtn.indexOf(btn)];
+            let item = arrFiltrado[arrAddCarritoBtn.indexOf(btn)];
+            if(itemCant.value > 0){
+                if(itemCant.value > item.stock){
+                    Swal.fire({
+                        title: 'Mal!',
+                        text: 'No ese stock disponible',
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                      })
+                }else{
+                    const productToCarrito = new ProductInCarrito (
+                        itemCant.value,
+                        item
+                        );
+                    carrito.push(productToCarrito);
+                    updateStock(item.id, itemCant.value, );
+                    itemCant.value="";
+                    updateCarritoTable(carrito);
+                    //FUNCION PARA BAJAR STOCK
+                    
+                }
             }else{
                 Swal.fire({
                     title: 'Mal!',
