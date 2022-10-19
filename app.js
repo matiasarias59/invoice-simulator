@@ -582,11 +582,8 @@ const updateCarritoTable = (arrCarrito) =>{
 // Funcion para modificar stock de producto
 
 const updateStock = (id, cant, action="remove") => {
-    console.log(id);
-    console.log(cant);
     action == "add"? productDB[id].stock += cant : productDB[id].stock -= cant ;
-    console.log(productDB[id])
-    console.log(productDB[id].stock)
+    
 }
 
 // Funcion para agregar elementos al carrito
@@ -613,13 +610,16 @@ const addProductCarrito = (arrFiltrado) =>{
                       })
                 }else{
                     const productToCarrito = new ProductInCarrito (
-                        itemCant.value,
+                        parseInt(itemCant.value),
                         item
                         );
                     carrito.push(productToCarrito);
                     updateStock(item.id, itemCant.value, );
+                    
                     itemCant.value="";
                     updateCarritoTable(carrito);
+                    UpdateLocalProductDB();
+                    UpdateProductSearch();
                     //FUNCION PARA BAJAR STOCK
                     
                 }
@@ -645,14 +645,19 @@ const delProductCarrito = (arrCarrito) =>{
         btn.addEventListener("click",function(){
            // console.log("eliminar btn");
            // console.log(arrCarrito);
-            arrCarrito.splice(arrDelCarritoBtn.indexOf(btn),1);
+            let indexCarrito = arrDelCarritoBtn.indexOf(btn);
+            updateStock(arrCarrito[indexCarrito].product.id, arrCarrito[indexCarrito].cant, "add");
+            arrCarrito.splice(indexCarrito,1);
             updateCarritoTable(arrCarrito);
+            UpdateLocalProductDB();
+            UpdateProductSearch();
         })
     }
 }
 
 // Agregar productos a DB
 SyncLocalProductDB();
+//UpdateLocalProductDB();
 //showCatalog(productDB);
 
 
