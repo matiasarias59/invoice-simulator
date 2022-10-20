@@ -368,7 +368,7 @@ const productDesc = document.getElementById("productDesc");
 const productStock = document.getElementById("productStock");
 const productPrice = document.getElementById("productPrice");
 const productIva = document.getElementById("productIva");
-//const productosFinal = document.getElementById("productosFinal");
+
 const productDB = []//Array DB para almacenar productos. posteriormente se manda al localStorage
 
 const newProductBtn = document.getElementById("newProductBtn");
@@ -390,12 +390,6 @@ const clearProductForm = () =>{
     newProductForm.reset();
     removeInputsClassList("correct_data");
     removeInputsClassList("fail_data");
-    /* productBrand.value = "";
-    productModel.value = "";
-    productDesc.value = "";
-    productStock.value ="";
-    productPrice.value ="";
-    productIva.value =""; */
 }
 
 // Validar Inputs Producto
@@ -427,8 +421,6 @@ const addProductToDB = () =>{
         productIva.value
     );
     productDB.push(newProduct);
-    //console.log(productDB);
-    //Limpia los campos del formulario
     clearProductForm();
     Swal.fire({
         title: 'Listo!',
@@ -436,8 +428,6 @@ const addProductToDB = () =>{
         icon: 'success',
         confirmButtonText: 'Ok'
       })
-  //  showCatalog(productDB);
-
 }
 
 const newProduct = () =>{
@@ -563,6 +553,7 @@ const updateCarritoTable = (arrCarrito) =>{
         <th>Descripción</th>
         <th>Precio</th>
         <th>IVA</th>
+        <th>Sub Total</th>
     </thead>`;
         //console.log(arrCarrito)
         arrCarrito.forEach(el =>{
@@ -571,12 +562,47 @@ const updateCarritoTable = (arrCarrito) =>{
         <td>${el.product.brand}</td>
         <td>${el.product.model}</td>
         <td>${el.product.desc}</td>
-        <td>${el.product.price}</td>
-        <td>${el.product.iva}</td>
+        <td>$${el.product.price}</td>
+        <td>${el.product.iva}%</td>
+        <td>$${el.calcularTotal()}</td>
         <td><input type="button" value="Eliminar" class="delCarritoBtn"></td>`;
         carritoTable.appendChild(rowItem);
     })
+    carritoTable.innerHTML += `<thead>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th> IVA TOTAL</th> <th>$${totalIvaCarrito(carrito)}</th>
+    </thead> 
+    <thead>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th> PRECIO TOTAL</th> <th>$${totalCarrito(carrito)}</th>
+    </thead> `;
     delProductCarrito(carrito);
+}
+
+// Funcion para Sumar el total del carrito y funcion para el iva total
+
+const totalCarrito = (arr) =>{
+    let total = 0;
+    for (const prod of arr){
+       total += prod.calcularTotal();
+    }
+    return total;
+}
+
+const totalIvaCarrito = (arr) =>{
+    let total = 0;
+    for (const prod of arr){
+       total += prod.calcularIvaTotal();
+    }
+    return total;
 }
 
 // Funcion para modificar stock de producto
@@ -677,7 +703,7 @@ searchProduct.addEventListener("search",UpdateProductSearch);
 
 //ingresar validez -----------------------
 
-const presupuesto = document.getElementById("presupuesto");
+/* const presupuesto = document.getElementById("presupuesto");
 const notaVenta = document.getElementById("notaVenta");
 const containerValidez = document.getElementById("validez__presupuesto");
 
@@ -693,6 +719,6 @@ notaVenta.addEventListener("click",notaVentaIsChecked);
 function notaVentaIsChecked(){
     containerValidez.style.display = "none";
     //console.log("cliqueaste nota de venta");
-}
+} */
 // Fin modulo ingresar validez------------------
 
