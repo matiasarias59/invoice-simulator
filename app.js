@@ -26,7 +26,6 @@ const validateForm = (objFlag, actionFunction) =>{
     let formFlag = false 
     for (const flag in objFlag) {
         if(!objFlag[flag]){
-            //console.log(flag);
             Swal.fire({
                 title: 'Mal!',
                 text: 'Por favor completa los campos correctamente!',
@@ -118,7 +117,6 @@ const addClientToDB = () =>{
         newClientCity.value,
     );
     clientDB.push(newClient);
-    //console.log(clientDB);
     cancelNewClient();
     Swal.fire({
         title: 'Listo!',
@@ -130,46 +128,7 @@ const addClientToDB = () =>{
 
 // Funcion nuevo Cliente
 const newClient = () =>{
-  //-*------------ 
-   /*  let formFlag = false 
-    for (const flag in clientFlags) {
-        if(!clientFlags[flag]){
-            //console.log(flag);
-            Swal.fire({
-                title: 'Mal!',
-                text: 'Por favor completa los campos correctamente!',
-                icon: 'error',
-                confirmButtonText: 'Ok'
-              })
-            formFlag = false;
-            break;
-        }else{
-            formFlag = true
-        }
-    }
-    if(formFlag) {
-        let newClient = new Client(
-            newClientName.value,
-            newClientId.value,
-            newClientPhone.value,
-            newClientMail.value,
-            newClientAddress.value,
-            newClientCity.value,
-        );
-        clientDB.push(newClient);
-        //console.log(clientDB);
-        cancelNewClient();
-        Swal.fire({
-            title: 'Listo!',
-            text: 'Cliente agregado correctamente!',
-            icon: 'success',
-            confirmButtonText: 'Ok'
-          })
-
-    } */
-   //-------------------
    validateForm(clientFlags,addClientToDB); 
-    
 }
 
 const cancelNewClient = () =>{
@@ -184,7 +143,6 @@ const traerClientesJson = async (url) => {
     const response = await fetch(url);
     const data = await response.json();
     for (const obj of data) {
-       //console.log(obj);
         clientDB.push(obj);
     }
  }
@@ -198,10 +156,8 @@ const UpdateLocalClientDB = () =>{
 // Funcion para sincronizar el localStorage de Clientes
 const SyncLocalClientDB = () =>{
     const clientDBSync = (JSON.parse(localStorage.getItem("clientDB")));
-    //console.log(clientDBSync);
     if(clientDBSync!=null){
         for (const client of clientDBSync){
-            //console.log(client);
             const clientToSync = new Client (
                 client.nomb,
                 client.dni,
@@ -211,7 +167,6 @@ const SyncLocalClientDB = () =>{
                 client.city
             )
             clientDB.push(clientToSync);
-            //console.log(clientDB);
         }
     }else{
         traerClientesJson("./json/clienDB.json");
@@ -228,13 +183,9 @@ const selectedClient = document.getElementById("selectedClient"); //div donde se
 const selectedClientBtn = document.getElementsByClassName("selectedClientBtn"); // btn para seleccionar cliente
 
 const selectClient = (clientDBFilter)=>{
-    console.log(selectedClientBtn.length);
     const arrSelectedClientBtn = [...selectedClientBtn];
     for (const btn of selectedClientBtn) {
         btn.addEventListener("click",function(){
-            //console.log("Clickeaste seleccionar");
-            //console.log(clientDBFilter);
-            //console.log(arrSelectedClientBtn)
             selectedClient.innerHTML=
             `<thead>
                 <th>Nombre</th>
@@ -254,11 +205,8 @@ const selectClient = (clientDBFilter)=>{
             </tr>`
             clientToFind.value="";
             resultClientSearch.innerHTML = "";
-
-
         }) 
     }
-    
 };
 
 // ------Busqueda y Filtrado de Clientes------------------------------
@@ -477,7 +425,6 @@ const traerProductosJson = async (url) => {
         //console.log(obj);
         productDB.push(obj);
     }
-    //showCatalog(productDB);
  }
 
 
@@ -489,10 +436,8 @@ const UpdateLocalProductDB = () =>{
 // Funcion para sincronizar el localStorage de Productos
 const SyncLocalProductDB = () =>{
     const productDBSync = (JSON.parse(localStorage.getItem("productDB")));
-    //console.log(productDBSync);
     if(productDBSync!=null){
         for (const product of productDBSync){
-            //console.log(product);
             const productToSync = new Product (
                 productDB.length,
                 product.brand,
@@ -507,8 +452,6 @@ const SyncLocalProductDB = () =>{
         }
     }else{
         traerProductosJson("./json/productDB.json");
-       // showCatalog(productDB);
-        //productDB.push(p1,p2,p3,p4,p5,p6,p7,p8,p9,p0);
     }
 }
 
@@ -524,15 +467,11 @@ const productSearch = (element) =>{
 // Funcion Filtra la DB de productos y los muestra
 const UpdateProductSearch = () =>{
     cancelNewProduct();
-    //resultSearch.innerHTML = "";
    const productDBFilter = productDB.filter(productSearch);
-    //console.log(productDBFilter);
     if(productDBFilter.length === 0){
         resultSearch.innerHTML = "<p>Lo sentimos no hay resultados</p>";
     }else{
-        showCatalog(productDBFilter);
-        //addProductCarrito(productDBFilter);
-        
+        showCatalog(productDBFilter);        
     };
 
     //searchProduct.value==="" && showCatalog(productDBFilter);
@@ -555,7 +494,6 @@ const updateCarritoTable = (arrCarrito) =>{
         <th>IVA</th>
         <th>Sub Total</th>
     </thead>`;
-        //console.log(arrCarrito)
         arrCarrito.forEach(el =>{
         const rowItem = document.createElement("tr");
         rowItem.innerHTML = `<td>${el.cant}</td>
@@ -608,18 +546,16 @@ const totalIvaCarrito = (arr) =>{
 // Funcion para modificar stock de producto
 
 const updateStock = (id, cant, action="remove") => {
-    action == "add"? productDB[id].stock += cant : productDB[id].stock -= cant ;
-    
+    action == "add"? productDB[id].stock += cant : productDB[id].stock -= cant ;    
 }
 
 // Funcion para agregar elementos al carrito
 const carrito = []; 
 const productQty = document.getElementsByClassName("productQty");
 const addCarritoBtn = document.getElementsByClassName("addCarritoBtn");
-//const delCarritoBtn = document.getElementsByClassName("delCarritoBtn");
+const orderBtn = document.getElementById("sendOrderBtn");
 
 const addProductCarrito = (arrFiltrado) =>{
-    //const arrProductQty = [...productQty];
     const arrAddCarritoBtn = [...addCarritoBtn];
     for (const btn of addCarritoBtn) {
 
@@ -644,6 +580,7 @@ const addProductCarrito = (arrFiltrado) =>{
                     
                     itemCant.value="";
                     updateCarritoTable(carrito);
+                    sendOrderBtn();
                     UpdateLocalProductDB();
                     UpdateProductSearch();
                     //FUNCION PARA BAJAR STOCK
@@ -667,25 +604,53 @@ const delProductCarrito = (arrCarrito) =>{
     const delCarritoBtn = document.getElementsByClassName("delCarritoBtn");
     const arrDelCarritoBtn = [...delCarritoBtn];
     for (const btn of delCarritoBtn) {
-        //console.log(arrDelCarritoBtn);
         btn.addEventListener("click",function(){
-           // console.log("eliminar btn");
-           // console.log(arrCarrito);
             let indexCarrito = arrDelCarritoBtn.indexOf(btn);
             updateStock(arrCarrito[indexCarrito].product.id, arrCarrito[indexCarrito].cant, "add");
             arrCarrito.splice(indexCarrito,1);
             updateCarritoTable(arrCarrito);
             UpdateLocalProductDB();
             UpdateProductSearch();
+            sendOrderBtn();
+            //checkOrderBtn(arrCarrito, carritoContainer);
         })
     }
 }
 
+//Funcion para agregar boton Realizar pedido
+const sendOrderBtn = () => {
+    if(carrito.length < 1){
+        orderBtn.style.display = "none" 
+        console.log("carrito 0");       
+    }else{
+        orderBtn.style.display = "block"        
+        orderBtn.addEventListener("click", ()=>{sendOrder()});
+    }
+    /* const btn = document.createElement("button");
+    btn.innerHTML= "Enviar Pedido"
+    container.appendChild(btn); */ 
+}
+
+const sendOrder = () => {
+    Swal.fire({
+        title: 'Listo!',
+        text: 'Pedido realizado correctamente!',
+        icon: 'success',
+        confirmButtonText: 'Ok'
+      })
+}
+
+const checkOrderBtn = (arr, container) =>{
+    if(arr.length = 0){
+        alert("lalala")
+        container.button.remove();
+    }
+
+}
+
+
 // Agregar productos a DB
 SyncLocalProductDB();
-//UpdateLocalProductDB();
-//showCatalog(productDB);
-
 
 newProductBtn.addEventListener("click", showNewProductContainer);
 cancelProductAdd.addEventListener("click", cancelNewProduct);
