@@ -579,7 +579,6 @@ const addProductCarrito = (arrFiltrado) =>{
                     updateCarritoTable(carrito);
                     UpdateLocalCarrito();                    
                     sendOrderBtn();
-                    //console.log(productDB);
                 }
             }else{
                 Swal.fire({
@@ -588,8 +587,7 @@ const addProductCarrito = (arrFiltrado) =>{
                     icon: 'error',
                     confirmButtonText: 'Ok'
                   })
-            }
-            
+            } 
         })
     } 
 };
@@ -609,9 +607,8 @@ const SyncLocalCarrito = () =>{
                 product.product
             )
             carrito.push(carritoToSync);
-           // console.log(productDB);
         }
-        updateCarritoTable(carrito);
+        carrito.length > 0 && updateCarritoTable(carrito);
         sendOrderBtn();
     }
 }
@@ -656,8 +653,10 @@ const sendOrder = () => {
       clearCarrito(carrito);
       UpdateLocalCarrito();
       updateCarritoTable(carrito);
-
-
+      carritoTable.innerHTML = "";
+      selectedClient.innerHTML= "";
+      searchProduct.value = "";
+      UpdateProductSearch();
     }else{
         Swal.fire({
             title: 'Error!',
@@ -678,7 +677,6 @@ const clearCarrito = (arr) => {
 SyncLocalProductDB();
 console.log(productDB);
 SyncLocalCarrito();
-//UpdateLocalProductDB();
 
 newProductBtn.addEventListener("click", showNewProductContainer);
 cancelProductAdd.addEventListener("click", cancelNewProduct);
@@ -690,28 +688,3 @@ productAdd.addEventListener("click", UpdateLocalProductDB);
 //Busqueda/Filtrado de productos
 searchProduct.addEventListener("keyup",UpdateProductSearch);
 searchProduct.addEventListener("search",UpdateProductSearch);
-
-
-// -------------- SECCION TIPO DE DOCUMENTO -----------------
-
-//ingresar validez -----------------------
-
-/* const presupuesto = document.getElementById("presupuesto");
-const notaVenta = document.getElementById("notaVenta");
-const containerValidez = document.getElementById("validez__presupuesto");
-
-presupuesto.addEventListener("click", presupuestoIsChecked);
-function presupuestoIsChecked(){
-    containerValidez.style.display = "block";
-    //console.log("cliqueaste presupuesto");
-}
-
-notaVenta.addEventListener("click",notaVentaIsChecked);
-
-
-function notaVentaIsChecked(){
-    containerValidez.style.display = "none";
-    //console.log("cliqueaste nota de venta");
-} */
-// Fin modulo ingresar validez------------------
-
