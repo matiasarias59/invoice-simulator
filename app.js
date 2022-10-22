@@ -54,7 +54,6 @@ const removeInputsClassList = (classList) => {
 
 //------ SECCION CLIENTES -------
 
-//Definicion Clase Cliente
 class Client{
     constructor(nomb, dni, tel, mail, dir, city){
         this.nomb = nomb;
@@ -66,16 +65,16 @@ class Client{
     }
 }
 
+const clientDB = [];
+const clienteFinal = document.getElementById("clienteFinal");
+const newClientForm = document.getElementById("newClientForm");
+
 const newClientName = document.getElementById("newClientName");
 const newClientId = document.getElementById("newClientId");
 const newClientPhone = document.getElementById("newClientPhone");
 const newClientMail = document.getElementById("newClientMail");
 const newClientAddress = document.getElementById("newClientAddress");
 const newClientCity = document.getElementById("newClientCity");
-
-const clientDB = [];
-const clienteFinal = document.getElementById("clienteFinal");
-const newClientForm = document.getElementById("newClientForm");
 
 // Validar Inputs Cliente
 const clientFlags = {
@@ -94,7 +93,41 @@ newClientMail.addEventListener("keyup", ()=>{validateInput("mail", clientFlags, 
 newClientAddress.addEventListener("keyup", ()=>{validateInput("nomb", clientFlags, newClientAddress, "newClientAddress")});
 newClientCity.addEventListener("keyup", ()=>{validateInput("nomb", clientFlags, newClientCity, "newClientCity")});
 
+const traerClientesJson = async (url) => {
+    const response = await fetch(url);
+    const data = await response.json();
+    for (const obj of data) {
+        clientDB.push(obj);
+    }
+ }
+
+const SyncLocalClientDB = () =>{
+    const clientDBSync = (JSON.parse(localStorage.getItem("clientDB")));
+    if(clientDBSync!=null){
+        for (const client of clientDBSync){
+            const clientToSync = new Client (
+                client.nomb,
+                client.dni,
+                client.tel,
+                client.mail,
+                client.dir,
+                client.city
+            )
+            clientDB.push(clientToSync);
+        }
+    }else{
+        traerClientesJson("./json/clienDB.json");
+    }
+}
+
+const UpdateLocalClientDB = () =>{
+    localStorage.setItem("clientDB", JSON.stringify(clientDB))
+}
+
 // Funcion agregar nuevo cliente a db
+const newClient = () =>{
+    validateForm(clientFlags,addClientToDB); 
+ }
 
 const addClientToDB = () =>{
     let newClient = new Client(
@@ -115,11 +148,6 @@ const addClientToDB = () =>{
       })
 }
 
-// Funcion nuevo Cliente
-const newClient = () =>{
-   validateForm(clientFlags,addClientToDB); 
-}
-
 const cancelNewClient = () =>{
     newClientContainer.style.display="none"
     newClientForm.reset();
@@ -127,48 +155,15 @@ const cancelNewClient = () =>{
     removeInputsClassList("fail_data");
 }
 
-// Funcion para Traer Clientes desde Json
-const traerClientesJson = async (url) => {
-    const response = await fetch(url);
-    const data = await response.json();
-    for (const obj of data) {
-        clientDB.push(obj);
-    }
- }
-
-// Funcion para actulizar el localStorage de clientes
-const UpdateLocalClientDB = () =>{
-    localStorage.setItem("clientDB", JSON.stringify(clientDB))
-}
-
-// Funcion para sincronizar el localStorage de Clientes
-const SyncLocalClientDB = () =>{
-    const clientDBSync = (JSON.parse(localStorage.getItem("clientDB")));
-    if(clientDBSync!=null){
-        for (const client of clientDBSync){
-            const clientToSync = new Client (
-                client.nomb,
-                client.dni,
-                client.tel,
-                client.mail,
-                client.dir,
-                client.city
-            )
-            clientDB.push(clientToSync);
-        }
-    }else{
-        traerClientesJson("./json/clienDB.json");
-    }
-}
-
 // Funcion para mostrar pestaña de agregar cliente
 const newClientContainer = document.getElementById("newClientContainer");
 const showNewClientContainer = () =>{
     newClientContainer.style.display="flex"
 }
+
 //Funcion para seleccionar el cliente en el resultado de busqueda
-const selectedClient = document.getElementById("selectedClient"); //div donde se mostrara el cliente seleccionado
-const selectedClientBtn = document.getElementsByClassName("selectedClientBtn"); // btn para seleccionar cliente
+const selectedClient = document.getElementById("selectedClient"); 
+const selectedClientBtn = document.getElementsByClassName("selectedClientBtn"); 
 let checkedClient = false ;
 
 const selectClient = (clientDBFilter)=>{
@@ -267,7 +262,6 @@ clientToFind.addEventListener("search",UpdateClientSearch);
 
 // ------------ SECCION PRODUCTOS-----------
 
-// Definicion Clase Producto
 class Product{
     constructor(id, brand, model, desc, stock, price, iva){
         this.id = id;
@@ -280,7 +274,6 @@ class Product{
     }
 }
 
-// Definicion Clase Carrito
 class ProductInCarrito{
     constructor(cant, product){
         this.cant = cant;
@@ -376,7 +369,6 @@ const cancelNewProduct = () =>{
     newProductContainer.style.display="none"
     clearProductForm();
 }
-
 
  // Funcion mostrar productos en catalogo
 const showCatalog = (arrProductDB) =>{
