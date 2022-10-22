@@ -1,5 +1,3 @@
-//Script para trabajar con el dom 
-
 //------ Expresiones para validar campos---
 const expresiones = {
     nomb: /^[\S][a-zA-ZÀ-ÿ\s0-9\_\-\.]*$/,
@@ -137,7 +135,6 @@ const traerClientesJson = async (url) => {
         clientDB.push(obj);
     }
  }
- //traerClientesJson("./json/clienDB.json");
 
 // Funcion para actulizar el localStorage de clientes
 const UpdateLocalClientDB = () =>{
@@ -220,7 +217,6 @@ const UpdateClientSearch = () =>{
     cancelNewClient();
     resultClientSearch.innerHTML = "";
     const clientDBFilter = clientDB.filter(clientSearch);
-    //console.log(clientDBFilter);
     if(clientDBFilter.length === 0){
         resultClientSearch.innerHTML = "<p>Lo sentimos no hay resultados</p>";
     }else{
@@ -416,7 +412,6 @@ const traerProductosJson = async (url) => {
     const response = await fetch(url);
     const data = await response.json();
     for (const obj of data) {
-        console.log(obj);
         productDB.push(obj);
         UpdateLocalProductDB();
     }
@@ -442,7 +437,6 @@ const SyncLocalProductDB = () =>{
                 product.iva
             )
             productDB.push(productToSync);
-           // console.log(productDB);
         }
     }else{
         traerProductosJson("./json/productDB.json");
@@ -465,12 +459,10 @@ const UpdateProductSearch = () =>{
         resultSearch.innerHTML = "<p>Lo sentimos no hay resultados</p>";
     }else{
         showCatalog(productDBFilter);        
-    };
-
-    //searchProduct.value==="" && showCatalog(productDBFilter);
+    }
     if(searchProduct.value===""){
         resultSearch.innerHTML = "";
-    };
+    }
 };
 
 //Funcion para mostrar elementos agregados al carrito
@@ -539,7 +531,6 @@ const totalIvaCarrito = (arr) =>{
 // Funcion para modificar stock de producto
 
 const updateStock = (id, cant, action="remove") => {
-    console.log(productDB[id]);
     action == "add"? productDB[id].stock += cant : productDB[id].stock -= cant ;    
 }
 
@@ -549,11 +540,9 @@ const productQty = document.getElementsByClassName("productQty");
 const addCarritoBtn = document.getElementsByClassName("addCarritoBtn");
 const orderBtn = document.getElementById("sendOrderBtn");
 
-
 const addProductCarrito = (arrFiltrado) =>{
     const arrAddCarritoBtn = [...addCarritoBtn];
     for (const btn of addCarritoBtn) {
-
         btn.addEventListener("click", function (){
             let itemCant = productQty[arrAddCarritoBtn.indexOf(btn)];
             let item = arrFiltrado[arrAddCarritoBtn.indexOf(btn)];

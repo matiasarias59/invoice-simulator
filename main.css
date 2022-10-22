@@ -59,11 +59,6 @@ h3{
     align-items: center;
 }
 
-#newClientForm input{
-    /* border: 2px solid red; */
-
-}
-
 #newProductContainer{
     display: none;
 }
@@ -110,31 +105,3 @@ td{
 #sendOrderBtn {
     display: none;
 }
-
-
-/* #resultClientSearch{
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 2rem;
-    
-}
-
-.clientContainer{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 2.5rem;
-    padding: 0.5rem;
-    background-color: rgb(242, 242, 242);
-    width: fit-content;
-    
-}
-.clientContainer p{
-    font-weight: 600;
-    font-size: 1.5rem;
-}
-
-.clientData{
-    margin-right: 1rem;
-    font-weight: 400;
-} */
