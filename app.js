@@ -9,7 +9,6 @@ const expresiones = {
 
 const validateInput = (expresion, flagObj, input, flag) => {
     if (expresiones[expresion].test(input.value)){
-        console.log("esta ok");
         input.classList.add("correct_data");
         input.classList.remove("fail_data");
         flagObj[flag]= true;
@@ -313,7 +312,7 @@ const resultSearch = document.getElementById("resultSearch");//section donde se 
 
 //Funcion para mostrar container Nuevo Producto
 const showNewProductContainer = () =>{
-    newProductContainer.style.display="block";
+    newProductContainer.style.display="flex";
 }
 
 //Funcion para limpiar campos de input de productos
@@ -616,7 +615,6 @@ const delProductCarrito = (arrCarrito) =>{
 const sendOrderBtn = () => {
     if(carrito.length < 1){
         orderBtn.style.display = "none" 
-        console.log("carrito 0");       
     }else{
         orderBtn.style.display = "block"        
         orderBtn.addEventListener("click", ()=>{sendOrder()});
@@ -638,6 +636,7 @@ const sendOrder = () => {
       selectedClient.innerHTML= "";
       searchProduct.value = "";
       UpdateProductSearch();
+      sendOrderBtn();
     }else{
         Swal.fire({
             title: 'Error!',
@@ -646,17 +645,16 @@ const sendOrder = () => {
             confirmButtonText: 'Ok'
           })
     }
+    checkedClient = false ;
 }
 
 const clearCarrito = (arr) => {
     arr = arr.splice(0, arr.length);
-    console.log(arr);
 }
 
 // Agregar productos a DB
 
 SyncLocalProductDB();
-console.log(productDB);
 SyncLocalCarrito();
 
 newProductBtn.addEventListener("click", showNewProductContainer);
