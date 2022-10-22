@@ -96,15 +96,6 @@ newClientMail.addEventListener("keyup", ()=>{validateInput("mail", clientFlags, 
 newClientAddress.addEventListener("keyup", ()=>{validateInput("nomb", clientFlags, newClientAddress, "newClientAddress")});
 newClientCity.addEventListener("keyup", ()=>{validateInput("nomb", clientFlags, newClientCity, "newClientCity")});
 
-/* newClientName.addEventListener("blur", ()=>{validateInput("nomb", clientFlags, newClientName, "newClientName")});
-newClientId.addEventListener("blur", ()=>{validateInput("numb", clientFlags, newClientId, "newClientId")});
-newClientPhone.addEventListener("blur", ()=>{validateInput("numb", clientFlags, newClientPhone, "newClientPhone")});
-newClientMail.addEventListener("blur", ()=>{validateInput("mail", clientFlags, newClientMail, "newClientMail")});
-newClientAddress.addEventListener("blur", ()=>{validateInput("nomb", clientFlags, newClientAddress, "newClientAddress")});
-newClientCity.addEventListener("blur", ()=>{validateInput("nomb", clientFlags, newClientCity, "newClientCity")}); */
-
-
-
 // Funcion agregar nuevo cliente a db
 
 const addClientToDB = () =>{
@@ -181,6 +172,7 @@ const showNewClientContainer = () =>{
 //Funcion para seleccionar el cliente en el resultado de busqueda
 const selectedClient = document.getElementById("selectedClient"); //div donde se mostrara el cliente seleccionado
 const selectedClientBtn = document.getElementsByClassName("selectedClientBtn"); // btn para seleccionar cliente
+let checkedClient = false ;
 
 const selectClient = (clientDBFilter)=>{
     const arrSelectedClientBtn = [...selectedClientBtn];
@@ -205,6 +197,8 @@ const selectClient = (clientDBFilter)=>{
             </tr>`
             clientToFind.value="";
             resultClientSearch.innerHTML = "";
+            checkedClient = true;
+            console.log(checkedClient);
         }) 
     }
 };
@@ -422,11 +416,11 @@ const traerProductosJson = async (url) => {
     const response = await fetch(url);
     const data = await response.json();
     for (const obj of data) {
-        //console.log(obj);
+        console.log(obj);
         productDB.push(obj);
+        UpdateLocalProductDB();
     }
  }
-
 
 // Funcion para actulizar el localStorage
 const UpdateLocalProductDB = () =>{
@@ -453,9 +447,8 @@ const SyncLocalProductDB = () =>{
     }else{
         traerProductosJson("./json/productDB.json");
     }
+    
 }
-
-
 
 // ----------Busqueda y Filtrado de Productos-----------------
 
@@ -546,6 +539,7 @@ const totalIvaCarrito = (arr) =>{
 // Funcion para modificar stock de producto
 
 const updateStock = (id, cant, action="remove") => {
+    console.log(productDB[id]);
     action == "add"? productDB[id].stock += cant : productDB[id].stock -= cant ;    
 }
 
@@ -554,6 +548,7 @@ const carrito = [];
 const productQty = document.getElementsByClassName("productQty");
 const addCarritoBtn = document.getElementsByClassName("addCarritoBtn");
 const orderBtn = document.getElementById("sendOrderBtn");
+
 
 const addProductCarrito = (arrFiltrado) =>{
     const arrAddCarritoBtn = [...addCarritoBtn];
@@ -576,15 +571,15 @@ const addProductCarrito = (arrFiltrado) =>{
                         item
                         );
                     carrito.push(productToCarrito);
-                    updateStock(item.id, itemCant.value, );
-                    
+                    console.log(productToCarrito);
+                    updateStock(item.id, itemCant.value,);
                     itemCant.value="";
-                    updateCarritoTable(carrito);
-                    sendOrderBtn();
                     UpdateLocalProductDB();
                     UpdateProductSearch();
-                    //FUNCION PARA BAJAR STOCK
-                    
+                    updateCarritoTable(carrito);
+                    UpdateLocalCarrito();                    
+                    sendOrderBtn();
+                    //console.log(productDB);
                 }
             }else{
                 Swal.fire({
@@ -599,6 +594,28 @@ const addProductCarrito = (arrFiltrado) =>{
     } 
 };
 
+// Funcion para actulizar el localStorage de carrito
+const UpdateLocalCarrito = () =>{
+    localStorage.setItem("carrito", JSON.stringify(carrito))
+}
+
+// Funcion para sincronizar el localStorage de carrito
+const SyncLocalCarrito = () =>{
+    const carritoSync = (JSON.parse(localStorage.getItem("carrito")));
+    if(carritoSync!=null){
+        for (const product of carritoSync){
+            const carritoToSync = new ProductInCarrito (
+                product.cant,
+                product.product
+            )
+            carrito.push(carritoToSync);
+           // console.log(productDB);
+        }
+        updateCarritoTable(carrito);
+        sendOrderBtn();
+    }
+}
+
 // Funcion para eliminar elementos del carrito
 const delProductCarrito = (arrCarrito) =>{
     const delCarritoBtn = document.getElementsByClassName("delCarritoBtn");
@@ -611,8 +628,8 @@ const delProductCarrito = (arrCarrito) =>{
             updateCarritoTable(arrCarrito);
             UpdateLocalProductDB();
             UpdateProductSearch();
+            UpdateLocalCarrito();
             sendOrderBtn();
-            //checkOrderBtn(arrCarrito, carritoContainer);
         })
     }
 }
@@ -625,32 +642,43 @@ const sendOrderBtn = () => {
     }else{
         orderBtn.style.display = "block"        
         orderBtn.addEventListener("click", ()=>{sendOrder()});
-    }
-    /* const btn = document.createElement("button");
-    btn.innerHTML= "Enviar Pedido"
-    container.appendChild(btn); */ 
+    } 
 }
 
 const sendOrder = () => {
+    if(checkedClient){
     Swal.fire({
         title: 'Listo!',
         text: 'Pedido realizado correctamente!',
         icon: 'success',
         confirmButtonText: 'Ok'
-      })
-}
+      });
+      clearCarrito(carrito);
+      UpdateLocalCarrito();
+      updateCarritoTable(carrito);
 
-const checkOrderBtn = (arr, container) =>{
-    if(arr.length = 0){
-        alert("lalala")
-        container.button.remove();
+
+    }else{
+        Swal.fire({
+            title: 'Error!',
+            text: 'Debes seleccionar un cliente',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          })
     }
-
 }
 
+const clearCarrito = (arr) => {
+    arr = arr.splice(0, arr.length);
+    console.log(arr);
+}
 
 // Agregar productos a DB
+
 SyncLocalProductDB();
+console.log(productDB);
+SyncLocalCarrito();
+//UpdateLocalProductDB();
 
 newProductBtn.addEventListener("click", showNewProductContainer);
 cancelProductAdd.addEventListener("click", cancelNewProduct);
